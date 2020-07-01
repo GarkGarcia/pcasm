@@ -118,29 +118,29 @@ Esse método encontra o dígito mais à direita primeiro, esse dígito é chamad
 \end{eqnarray*}
 
 \centering
-Thus $25_{10} = 11001_{2}$
+Logo $25_{10} = 11001_{2}$
 }}
-\caption{Decimal conversion \label{fig:dec-convert}}
+\caption{Conversão decimal \label{fig:dec-convert}}
 \end{figure}
 
 \subsection{Hexadecimal\index{hexadecimal|(}}
 
-Hexadecimal numbers use base 16. Hexadecimal (or \emph{hex} for short) can be
-used as a shorthand for binary numbers. Hex has 16 possible
-digits. This creates a problem since there are no symbols to use for
-these extra digits after 9. By convention, letters are used for these
-extra digits. The 16 hex digits are 0-9 then A, B, C, D, E and F. The
-digit A is equivalent to 10 in decimal, B is 11, etc. Each digit of a
-hex number has a power of 16 associated with it. Example:
+Número hexadecimais usam a base 16. Hexadecimal (ou \emph{hex} abraviado) 
+podem ser usados como uma forma abreviada de números binários. Hex tem 16 
+possíveis dígitos. Isso cria um problema, visto que não há simbolos para 
+represental esses dígitos extras depois do 9. Por converção, letras são usadas 
+para representar esses dígitos extras. Os 16 dígitos hex são 0-9 e então A, B, 
+C, D, E e F. O dígito A é equivalente a 10 em decimal, B é 11, etc. Cada 
+dígito de um número hex é associado a uma potência de 16. Exemplo:
 \begin{eqnarray*}
 \rm
 2BD_{16} & = & 2 \times 16^2 + 11 \times 16^1 + 13 \times 16^0 \\
          & = & 512 + 176 + 13 \\
          & = & 701 \\
 \end{eqnarray*}
-To convert from decimal to hex, use the same idea that was used for
-binary conversion except divide by 16. See Figure~\ref{fig:hex-conv} for
-an example.
+Para converter-se de decimal para hex, é usada a mesma ideia que foi usada 
+para a conversão binária, exceto que dividimos por 16. Veja a figura 
+Figura~\ref{fig:hex-conv} para um exemplo.
 
 \begin{figure}[t]
 \centering
@@ -152,49 +152,51 @@ an example.
 \end{eqnarray*}
 
 \centering
-Thus $589 = 24\mathrm{D}_{16}$
+Logo $589 = 24\mathrm{D}_{16}$
 }}
 \caption{\label{fig:hex-conv}}
 \end{figure}
 
-The reason that hex is useful is that there is a very simple way to
-convert between hex and binary. Binary numbers get large and
-cumbersome quickly. Hex provides a much more compact way to represent
-binary.
+A razão pela qual hex é util é que há uma forma bastante simples de 
+converter-se entre hex e binário. Números binários se tornam grandes e 
+desejeitados rapidamente. Hex fornece uma maneira muito mais compacta de 
+representar binário.
 
-To convert a hex number to binary, simply convert each hex digit to a
-4-bit binary number. For example, $\mathrm{24D}_{16}$ is converted to
-\mbox{$0010\;0100\; 1101_2$}. Note that the leading zeros of the
-4-bits are important! If the leading zero for the middle digit of
-$\mathrm{24D}_{16}$ is not used the result is wrong. Converting from
-binary to hex is just as easy. One does the process in reverse. Convert
-each 4-bit segments of the binary to hex. Start from the
-right end, not the left end of the binary number. This ensures that
-the process uses the correct 4-bit segments\footnote{If it is not
-clear why the starting point makes a difference, try converting the
-example starting at the left.}. Example:\newline
+Para converter números hex para binário, basta converter cada dígito hex para 
+um número binário de 4 bits. Por exemplo, $\mathrm{24D}_{16}$ é convertido 
+para \mbox{$0010\;0100\; 1101_2$}. Note que zeros à esqueda dos 4 bits são 
+importantes! Se o zero à esquerda para o dígito do meio de $\mathrm{24D}_{16}$ 
+não for considerado o resultado encontrado será incorreto. A conversão de 
+binário para hex é tão simples quanto. Pode ser aplicado o processo reverso. 
+Converta cada seguimento de 4 bits do número binário para hex. Comece pela 
+direita, e não pela esquerda do número binário. Isso garante que o processo 
+use o segmento de 4 bits correto\footnote{Se não estiver claro por quê o ponto 
+de partida faz diferença, tente converter o exemplo começando pela esquerda.}. 
+Exemplo:\newline
 
 \begin{tabular}{cccccc}
 $110$ & $0000$ & $0101$ & $1010$ & $0111$ & $1110_2$ \\
   $6$ & $0$    &   $5$  &   A  &  $7$   &    $\mathrm{E}_{16}$ \\
 \end{tabular}\newline
 
-A 4-bit number is called a \emph{nibble} \index{nibble}. Thus each hex
-digit corresponds to a nibble. Two nibbles make a byte and so a byte
-can be represented by a 2-digit hex number. A byte's value ranges from
-0 to 11111111 in binary, 0 to FF in hex and 0 to 255 in decimal.
+Um número de 4 bits é dito um \emph{nibble} \index{nibble}. Assim, cada dígito 
+hex corresponde a um nibble. Dois nibbles compões um byte e logo um byte pode 
+ser representado por um número hex de dois dígitos. O valor de um byte variade 
+0 a 11111111 em binário, 0 a FF em hex e 0 a 255 em decimal.
+
 \index{hexadecimal|)}
 
-\section{Computer Organization}
+\section{Organização de um Computador}
 
-\subsection{Memory\index{memory|(}}
+\subsection{Memória\index{memory|(}}
 
-The basic unit of memory is a byte. \index{byte} \MarginNote{Memory is
-measured in units of kilobytes (~$2^{10} = 1,024$ bytes), megabytes
-(~$2^{20} = 1,048,576$ bytes) and gigabytes (~$2^{30} = 1,073,741,824$
-bytes).}A computer with 32 megabytes of memory can hold roughly 32
-million bytes of information. Each byte in memory is labeled by a
-unique number known as its address as Figure~\ref{fig:memory} shows.
+A unidade básica de memória é um byte. \index{byte} \MarginNote{A memória é 
+medida em unidades de kilobytes (~$2^{10} = 1,024$ bytes), megabytes 
+(~$2^{20} = 1,048,576$ bytes) e gigabytes (~$2^{30} = 1,073,741,824$ bytes).}
+Um computador com 32 megabytes de momória pode armazenar aproximadamente 32 
+milhões de bytes de informação. Cada byte na memória é rotulado por um 
+unico numero conhecido como seu endereço, como mostra a 
+Figura~\ref{fig:memory}.
 
 \begin{figure}[ht]
 \begin{center}
@@ -207,7 +209,7 @@ Memory & \multicolumn{1}{|c}{2A}  & \multicolumn{1}{|c}{45}
        & \multicolumn{1}{|c}{12} & \multicolumn{1}{|c|}{2E} \\
 \cline{2-9}
 \end{tabular}
-\caption{ Memory Addresses \label{fig:memory} }
+\caption{ Endereços de Memória \label{fig:memory} }
 \end{center}
 \end{figure}
 
@@ -220,33 +222,34 @@ double word & 4 bytes \\ \hline
 quad word & 8 bytes \\ \hline
 paragraph & 16 bytes \\ \hline
 \end{tabular}
-\caption{ Units of Memory \label{tab:mem_units} }
+\caption{ Unidade de Memória \label{tab:mem_units} }
 \end{center}
 \end{table}
 
-Often memory is used in larger chunks than single bytes. On
-the PC architecture, names have been given to these larger sections of
-memory as Table~\ref{tab:mem_units} shows.
+Frequentemente a memória é usada em blocos maiores do que bytes individuais. 
+Na arquitetura PC, namoes foram dados para essas seções de memória maiores, 
+como a Table~\ref{tab:mem_units} mostra.
 
-All data in memory is numeric. Characters are stored by using a
-\emph{character code} that maps numbers to characters. One of the 
-most common character codes is known as \emph{ASCII} (American
-Standard Code for Information Interchange). A new, more complete code
-that is supplanting ASCII is Unicode. One key difference between the
-two codes is that ASCII uses one byte to encode a character, but
-Unicode uses multiple bytes. There are several different forms of Unicode.
-On x86 C/C++ compilers, Unicode is represented in code using the 
-{\code wchar\_t} type and the UTF-16 encoding which uses 16 bits (or a 
-\emph{word}) per character. For example, ASCII maps the byte $41_{16}$ 
-($65_{10}$) to the character capital \emph{A}; UTF-16 maps it to the 
-word $0041_{16}$. Since ASCII uses a byte, it is limited to only 256 
-different characters\footnote{In fact, ASCII only uses the lower 7-bits 
-and so only has 128 different values to use.}. Unicode extends the ASCII 
-values and allows many more characters to be represented. This is important 
-for representing characters for all the languages of the world.
+Todos os dados na memória são números. Caracteres são armazenados usando-se um 
+\emph{código de caracteres} que mapeia numeros para caracteres. Um dos mais 
+populares códigos de caracters é conhecido como \emph{ASCII} (American 
+Standard Code for Information Interchange). Um novo código, mais completo, que 
+está suplementando o ASCII é o Unicode. Uma diferença fundamental entre os 
+dois códigos é que o ASCII usa um byte para codificar um caracter, enquanto 
+que o Unicode usa multiplos bytes. Há diferças variações distintas de 
+Unicode. Em compiladores x86 de C/C++, Unicode é representa no código 
+usando-se o tipo {\code wchar\_t} e a codificação UTF-16, que usa 16 bits (ou 
+uma \emph{word}) por caractere. Por exemplo, o ASCII mapeia o byte $41_{16}$ 
+($65_{10}$) para o caracter maiúsculo \emph{A}; o UTF-16 mapeia tal caracter 
+para a word $0041_{16}$. Como o ASCII usa um byte, ele é limitado a somente 
+256 caracters distintos\footnote{Na realidade, o ASCII usa apenas os 7 bits 
+inferiores e então tem apenas 128 differentes valores para uso.}. O Unicode 
+extende os valores ASCII e permite que muito mais caracteres seja 
+representados. Isso é importante para representar-se caracteres para todas as 
+linguas do mundo.
 \index{memory|)}
 
-\subsection{The CPU\index{CPU|(}}
+\subsection{O CPU\index{CPU|(}}
 
 The Central Processing Unit (CPU) is the physical device that performs
 instructions. The instructions that CPUs perform are generally very
