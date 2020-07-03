@@ -1,80 +1,80 @@
 
-\chapter{Basic Assembly Language}
+\chapter{Linguagem de Assembly Básica}
 
-\section{Working with Integers \index{integer|(}}
+\section{Trabalhando com Inteiros \index{integer|(}}
 
-\subsection{Integer representation \index{integer!representation|(}}
+\subsection{Representação de Inteiros \index{integer!representation|(}}
 
 \index{integer!unsigned|(}
-Integers come in two flavors: unsigned and signed. Unsigned integers (which
-are non-negative) are represented in a very straightforward binary manner.
-The number 200 as an one byte unsigned integer would be represented as by
-11001000 (or C8 in hex).
+Inteiros vêm em dois sabores: sem sinal e com sinal. Inteiros sem sinal (que 
+são não negativos) são representados de uma maneira bem direta em binário.
+O número 200 como um inteiro sem sinal de um byte seria representado por
+11001000 (ou C8 em hex).
 \index{integer!unsigned|)}
 
 \index{integer!signed|(}
-Signed integers (which may be positive or negative) are represented in a more
-complicated ways. For example, consider $-56$. $+56$ as a byte would be
-represented by 00111000. On paper, one could represent $-56$ as $-111000$,
-but how would this be represented in a byte in the computer's memory.
-How would the minus sign be stored?
+Inteiros com sinal (que podem ser positivo ou negativo) são representados de maneira
+mais complicada. Por exemplo, considere $-56$. $+56$ como um byte seria
+representado por 00111000. Na teoria, poderíamos representar $-56$ como $-111000$,
+mas como isso seria representado em um byte na memória do computador?
+Como o sinal negativo seria alocado?
 
-There are three general techniques that have been used to represent
-signed integers in computer memory. All of these methods use the most
-significant bit of the integer as a \emph{sign
-bit}. \index{integer!sign bit} This bit is 0 if the number is positive
-and 1 if negative.
+Existem três técnicas gerais que vêm sendo usada para representar
+inteiros com sinal na memória do computador. Todos estes métodos usam o bit
+mais significativo do inteiro como um \emph{bit
+de sinal}. \index{integer!sign bit} Este bit será 0 se o número for positivo
+e 1 se for negativo.
 
-\subsubsection{Signed magnitude \index{integer!representation!signed magnitude}}
+\subsubsection{Sinal-e-magnitude \index{integer!representation!signed magnitude}}
 
-The first method is the simplest and is called \emph{signed magnitude}. It
-represents the integer as two parts. The first part is the sign bit and
-the second is the magnitude of the integer. So 56 would be represented as
-the byte $\underline{0}0111000$ (the sign bit is underlined) and $-56$
-would be $\underline{1}0111000$. The largest byte value would be
-$\underline{0}1111111$ or $+127$ and the smallest byte value would be
-$\underline{1}1111111$ or $-127$. To negate a value, the sign bit is reversed.
-This method is straightforward, but it does have its drawbacks. First,
-there are two possible values of zero, $+0$ ($\underline{0}0000000$) and
-$-0$ ($\underline{1}0000000$). Since zero is neither positive nor negative,
-both of these representations should act the same. This complicates the logic
-of arithmetic for the CPU. Secondly, general arithmetic is also complicated.
-If 10 is added to $-56$, this must be recast as 10 subtracted by 56. Again,
-this complicates the logic of the CPU.
+O primeiro método é o mais simples e se chama \emph{sinal-e-magnitude} (ou sinal-magnitude). Ele 
+representa o inteiro como duas partes. A primeira parte é o bit de sinal e 
+a segunda parte é a magnitude do inteiro. Neste caso, 56 seria representado como
+o byte $\underline{0}0111000$ (o bit de sinal está sublinhado) e $-56$
+seria $\underline{1}0111000$. O maior valor de byte seria
+$\underline{0}1111111$ ou $+127$ e o menor valor de byte seria 
+$\underline{1}1111111$ ou $-127$. Para negar um valor, o bit de sinal é invertido.
+Este método é direto, mas tem suas desvantagens. Primeiro,
+há dois possíveis valores de zero, $+0$ ($\underline{0}0000000$) e
+$-0$ ($\underline{1}0000000$). Como zero não é positivo nem negativo,
+ambas representações devem agir da mesma forma. Isto complica a lógica 
+da arimética da CPU. Segundo, aritmética geral é também complicada.
+Se 10 é adicionado a $-56$, isso deve ser reformulado como 10 subtraído de 56. Novamente,
+isso complica a lógica da CPU.
 
-\subsubsection{One's complement \index{integer!representation!one's complement}}
-The second method is known as \emph{one's complement} representation. The
-one's complement of a number is found by reversing each bit in the number.
-(Another way to look at it is that the new bit value is $1 - \mathrm{old bit value}$.) 
-For example, the one's complement of 
-$\underline{0}0111000$ ($+56$) is $\underline{1}1000111$. In one's complement
-notation, computing the one's complement is equivalent to negation. Thus,
-$\underline{1}1000111$ is the representation for $-56$. Note that the sign
-bit was automatically changed by one's complement and that as one would
-expect taking the one's complement twice yields the original number. As for
-the first method, there are two representations of zero: 
-$\underline{0}0000000$ ($+0$) and $\underline{1}1111111$ ($-0$). Arithmetic
-with one's complement numbers is complicated.
+\subsubsection{Complemento para um \index{integer!representation!one's complement}}
+O segundo método é conhecido como \emph{complemento para um}. O
+complemento para um de algum número é encontrado ao inverter cada bit no número.
+(Outra forma de compreender isso é que o novo valor de bit será $1 - \mathrm{antigo valor de bit}$.) 
+Por exemplo, o complemento para um de 
+$\underline{0}0111000$ ($+56$) é $\underline{1}1000111$. Na notação de complemento
+para um, calcular o complemento para um é equivalente a negação. Assim,
+$\underline{1}1000111$ é a representação para $-56$. Note que o bit de 
+sinal foi alterado automaticamente pelo complemento para um e como é de se esperar 
+tomar o complemento para um duas vezes produz o número original. Assim como no
+primeiro método, existem duas representações de zero: 
+$\underline{0}0000000$ ($+0$) e $\underline{1}1111111$ ($-0$). Artimética 
+com o complemento para um é complicada.
 
-There is a handy trick to finding the one's complement of a number in
-hexadecimal without converting it to binary. The trick is to subtract the
-hex digit from F (or 15 in decimal). This method assumes that the number of
-bits in the number is a multiple of 4. Here is an example: $+56$ is
-represented by 38 in hex. To find the one's complement, subtract each
-digit from F to get C7 in hex. This agrees with the result above.
+Há um truque útil para encontrar o complemento para um de um número em
+hexadecimal sem convertê-lo em binário. O truque é subtrair o dígito
+hex do F (ou 15 in decimal). Este método assume que o número de
+bits no número é um múltiplo de 4. Tome como exemplo: $+56$ é
+representado por 38 em hex. Para encontrar seu complemento para um, subtraia cada
+dígito de F para conseguir C7 em hex. Isso esta coerente com o resultado acima.
 
-\subsubsection{Two's complement \index{integer!representation!two's complement|(}
+\subsubsection{Complemento para dois \index{integer!representation!two's complement|(}
                \index{two's complement|(}}
 
-The first two methods described were used on early computers. Modern computers
-use a third method called \emph{two's complement} representation. The two's
-complement of a number is found by the following two steps:
+Os primeiros dois métodos descritos eram usados em computadores antigos. Computadores modernos
+usam um terceiro método chamado \emph{complemento para dois}. O complemento
+para dois de um número é encontrado a partir de dois passos:
 \begin{enumerate}
-\item Find the one's complement of the number
-\item Add one to the result of step 1
+\item Encontre o complemento para um do número em questão
+\item Adicione um ao resultado encontrado no item anterior
 \end{enumerate}
-Here's an example using $\underline{0}0111000$ (56). First the one's complement
-is computed: $\underline{1}1000111$. Then one is added:
+Veja um exemplo com $\underline{0}0111000$ (56). Primeiro calculamos o
+complemento para um: $\underline{1}1000111$. Depois adicionamos um ao resultado:
 \[
 \begin{array}{rr}
  & \underline{1}1000111 \\
@@ -83,11 +83,11 @@ is computed: $\underline{1}1000111$. Then one is added:
 \end{array}
 \]
 
-In two complement's notation, computing the two's complement is equivalent
-to negating a number. Thus, $\underline{1}1001000$ is the two's complement
-representation of $-56$. Two negations should reproduce the original number.
-Surprising two's complement does meet this requirement. Take the two's
-complement of $\underline{1}1001000$ by adding one to the one's complement.
+Na notação de complemento para dois, calcular o complemento para dois é equivalente
+a negar um número. Portanto, $\underline{1}1001000$ é a representação do complemento
+para dois de $-56$. Duas negações devem reproduzir o número original.
+Surpreendentemente complemento para dois atende a este requisito. Tome o complemento
+para dois de $\underline{1}1001000$ adicionando um ao complemento para um.
 \[
 \begin{array}{rr}
  & \underline{0}0110111 \\
@@ -96,14 +96,14 @@ complement of $\underline{1}1001000$ by adding one to the one's complement.
 \end{array}
 \]
 
-When performing the addition in the two's complement operation, the addition
-of the leftmost bit may produce a carry. This carry is \emph{not} used. 
-Remember that all data on the computer is of some fixed size (in terms of
-number of bits). Adding two bytes always produces a byte as a result (just
-as adding two words produces a word, {\em etc\/}.) This property is important 
-for two's complement notation. For example, consider zero as a one byte
-two's complement number ($\underline{0}0000000$). Computing its two complement
-produces the sum:
+Quando realizamos a adição numa operação de complemento para dois, a adição
+do bit mais à esquerda pode produzir um carry. Este carry \emph{não} é usado. 
+Lembre-se que todos os dados no computador são de algum tamanho fixo (em termos de 
+números de bits). Adicionar dois bytes sempre produz um byte como resultado (assim
+como unir duas palavras produz uma palavra, {\em etc\/}.) Esta propriedade é importante 
+para a notação de complemento para dois. Por exemplo, considere zero como um número de
+complemento para dois de um byte ($\underline{0}0000000$). Calcular seu complemento para dois
+resulta na soma:
 \[
 \begin{array}{rr}
  & \underline{1}1111111 \\
@@ -111,16 +111,16 @@ produces the sum:
 c& \underline{0}0000000
 \end{array}
 \]
-where $c$ represents a carry. (Later it will be shown how to detect this carry,
-but it is not stored in the result.) Thus, in two's complement notation there
-is only one zero. This makes two's complement arithmetic simpler than the
-previous methods.
+em que $c$ representa um carry. (Posteriormente será mostrado como detectar este carry,
+porém ele não é alocado no resultado.) Assim, na notação de complemento para dois existe
+apenas um zero. Isto faz a aritmética de complemento para dois ser mais simples do que aquelas 
+dos métodos anteriores.
 
 \begin{table}
 \centering
 \begin{tabular}{||c|c||}
 \hline
-Number & Hex Representation \\
+Número & Representação Hex \\
 \hline
 0 & 00 \\
 1 & 01 \\
@@ -131,36 +131,36 @@ Number & Hex Representation \\
 -1 & FF \\
 \hline
 \end{tabular}
-\caption{Two's Complement Representation \label{tab:twocomp}}
+\caption{Representação de Complemento para Dois \label{tab:twocomp}}
 \end{table}
 
-Using two's complement notation, a signed byte can be used to
-represent the numbers $-128$ to $+127$. Table~\ref{tab:twocomp} shows some
-selected values. If 16 bits are used, the signed numbers $-32,768$ to 
-$+32,767$ can be represented. $+32,767$ is represented by 7FFF, 
-$-32,768$ by 8000, -128 as FF80 and -1 as FFFF. 32 bit two's complement 
-numbers range from $-2$ billion to $+2$ billion approximately. 
+Usando a notação de complemento para dois, um byte com sinal pode ser usado para
+representar os números de $-128$ a $+127$. A tabela~\ref{tab:twocomp} mostra alguns
+valores selecionados. Se são usados 16 bits, os números com sinal de $-32,768$ a 
+$+32,767$ podem ser representados. $+32,767$ é representado por 7FFF, 
+$-32,768$ por 8000, -128 por FF80 e -1 por FFFF. Os números de 32 bit em complemento 
+para dois no intervalo de $-2$ bilhões a $+2$ bilhões aproximadamente. 
 
 
-The CPU has no idea what a particular byte (or word or double word) is
-supposed to represent. Assembly does not have the idea of types that a
-high level language has. How data is interpreted depends on what instruction
-is used on the data. Whether the hex value FF is considered to represent
-a signed $-1$ or a unsigned $+255$ depends on the programmer. The C language
-defines signed and unsigned integer types. This allows a C compiler to
-determine the correct instructions to use with the data.
+A CPU tem ideia nenhuma idea do que um byte em particular (ou palavra ou palavra dupla) 
+deveria representar. Assembly não possui a ideia de tipos que uma
+linguagem de alto nível possui. A interpretação dos dados depende de qual instrução
+é usada com o dado. Se o valor hex FF será considerado para representar
+um número com sinal $-1$ ou um número sem sinal $+255$ dependerá da programadora. A linguagem C 
+define tipos de inteiro com sinal e sem sinal. Isso permite um compilador de C a 
+determinar a instrução correta a ser usada com o dado.
 
 \index{two's complement|)}
 \index{integer!representation!two's complement|)}
 \index{integer!signed|)}
 
-\subsection{Sign extension \index{integer!sign extension|(}}
+\subsection{Extensão de sinal \index{integer!sign extension|(}}
 
-In assembly, all data has a specified size. It is not uncommon to need to
-change the size of data to use it with other data. Decreasing size is the
-easiest.
+Em assembly, todo dado tem um tamanho específico. Não é incomum ter de precisar 
+mudar o tamanho de um dado para usá-lo com outro dado. Reduzir o tamanho é o 
+mais fácil.
 
-\subsubsection{Decreasing size of data}
+\subsubsection{Reduzindo o tamanho de dados}
 
 To decrease the size of data, simply remove the more significant bits of the
 data. Here's a trivial example:
