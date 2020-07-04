@@ -162,99 +162,99 @@ mais fácil.
 
 \subsubsection{Reduzindo o tamanho de dados}
 
-To decrease the size of data, simply remove the more significant bits of the
-data. Here's a trivial example:
+Para reduzir o tamanho do dado, basta remover os bits mais significativos do
+dado. Veja um exemplo trivial:
 \begin{AsmCodeListing}[numbers=none,frame=none]
-      mov    ax, 0034h      ; ax = 52 (stored in 16 bits)
-      mov    cl, al         ; cl = lower 8-bits of ax
+      mov    ax, 0034h      ; ax = 52 (alocado 16 bits)
+      mov    cl, al         ; cl = 8-bits a menos do que ax
 \end{AsmCodeListing}
 
-Of course, if the number can not be represented correctly in the smaller
-size, decreasing the size does not work. For example, if {\code AX}
-were 0134h (or 308 in decimal) then the above code would still set
-{\code CL} to 34h. This method works with both signed and unsigned
-numbers.  Consider signed numbers, if {\code AX} was FFFFh ($-1$ as a
-word), then {\code CL} would be FFh ($-1$ as a byte). However, note
-that this is not correct if the value in {\code AX} was unsigned!
+Claro, se o número não puder ser representado corretamente no tamanho
+menor, reduzir o tamanho não irá funcionar. Por exemplo, se {\code AX}
+for 0134h (ou 308 em decimal) então o código acima ainda armazenaria 
+{\code CL} para 34h. Este método funciona tanto para números com sinal
+quanto para números sem sinal. Considere números com sinal, se {\code AX} for FFFFh ($-1$ como uma
+palavra), então {\code CL} seria FFh ($-1$ como um byte). Entretanto, note
+que isto não é correto se o valor em {\code AX} for sem sinal!
 
-The rule for unsigned numbers is that all the bits being removed must
-be 0 for the conversion to be correct. The rule for signed numbers is
-that the bits being removed must be either all 1's or all 0's. In
-addition, the first bit not being removed must have the same value as
-the removed bits. This bit will be the new sign bit of the smaller value.
-It is important that it be same as the original sign bit!
+A regra para números sem sinal é que todos os bits a serem removidos devem
+ser 0 para a conversão ser correta. A regra para números com sinal é
+que os bits a serem removidos devem ser ou todos 1 ou todos 0. Ademais,
+o primeiro bit não removido deve ter o mesmo valor que os bits
+removidos. Este bit será o novo bit de sinal do valor de tamanho menor.
+É importante que seja igual ao bit de sinal do valor original!
 
-\subsubsection{Increasing size of data}
+\subsubsection{Aumentando o tamanho de dados}
 
-Increasing the size of data is more complicated than
-decreasing. Consider the hex byte FF. If it is extended to a word,
-what value should the word have?  It depends on how FF is
-interpreted. If FF is a unsigned byte (255 in decimal), then the word
-should be 00FF; however, if it is a signed byte ($-1$ in decimal),
-then the word should be FFFF.
+Aumentar o tamanho do dado é mais complicado do que
+reduzir. Considere o hex byte FF. Caso ele seja estendido para uma palavra,
+qual valor a palavra deveria ter? Isso depende da forma como FF é
+interpretada. Se FF é um byte sem sinal (255 em decimal), então a palavra
+deverá ser 00FF; contudo, se for um byte com sinal ($-1$ em decimal),
+então a palavra será FFFF.
 
-In general, to extend an unsigned number, one makes all the new bits
-of the expanded number 0. Thus, FF becomes 00FF. However, to extend a
-signed number, one must \emph{extend} the sign
-bit. \index{integer!sign bit} This means that the new bits become
-copies of the sign bit. Since the sign bit of FF is 1, the new bits
-must also be all ones, to produce FFFF. If the signed number 5A (90 in
-decimal) was extended, the result would be 005A.
+Em geral, para estender um número sem sinal, faça todo os novos bits
+do número expandido serem 0 (zeros). Deste modo, FF torna-se 00FF. Entretando, para estender um
+número com sinal, deverá \emph{estender} o bit de sinal. 
+\index{integer!sign bit} Isso quer dizer que os novos bits tornam-se
+cópias do bit de sinal. Como o bit de sinal de FF é 1, os novos bits
+também devem ser uns, para produzir FFFF. Caso extendêssemos o número com sinal 5A (90 in
+decimal), o resultado seria 005A.
 
-There are several instructions that the 80386 provides for extension of
-numbers. Remember that the computer does not know whether a number is signed
-or unsigned. It is up to the programmer to use the correct instruction.
+Existem várias instruções que o 80386 providencia para a estenção de
+números. Lembre-se que o computador não sabe quando um número é com sinal
+ou sem sinal. Vai da programadora utilizar a instrução correta.
 
-For unsigned numbers, one can simply put zeros in the upper bits using a
-{\code MOV} instruction. For example, to extend the byte in AL to an unsigned
-word in AX:
+Para números com sinal, pode-se simplesmente posicionar zeros nos bits superiores usando
+a instrução {\code MOV}. Por exemplo, para estender o byte em AL para uma palavra 
+sem sinal em AX:
 \begin{AsmCodeListing}[numbers=none,frame=none]
-      mov    ah, 0   ; zero out upper 8-bits
+      mov    ah, 0   ; zere 8-bits superiores
 \end{AsmCodeListing}
-However, it is not possible to use a {\code MOV} instruction to
-convert the unsigned word in AX to an unsigned double word in EAX. Why
-not? There is no way to specify the upper 16 bits of EAX in a {\code
-MOV}. The 80386 solves this problem by providing a new instruction
-{\code MOVZX}. \index{MOVZX} This instruction has two operands. The destination
-(first operand) must be a 16 or 32~bit register.  The source (second
-operand) may be an 8 or 16~bit register or a byte or word of
-memory. The other restriction is that the destination must be larger than
-the source. (Most instructions require the source and destination to be
-the same size.) Here are some examples:
+Entretanto, não é possível utilizar a instrução {\code MOV} para
+converter palavra sem sinal em AX em uma palavra dupla sem sinal em EAX. Por
+que não? Bom, não há como especificar os 16 bits superiores de EAX em uma {\code
+MOV}. O 80386 soluciona este problema providenciando uma nova instrução
+{\code MOVZX}. \index{MOVZX} Esta instrução tem dois operandos. O destino
+(primeiro operando) deve ser um registrador de 16 ou 32~bit.  A fonte (segundo
+operando) pode ser um registrador de 8 ou 16~bit ou um byte ou palavra de 
+memória. A outra restrição é que o destino deve ser maior do que
+a fonte. (Maioria das instruções requer que a fonte e o destino tenham
+o mesmo tamanho.) Aqui vão alguns exemplos:
 \begin{AsmCodeListing}[numbers=none,frame=none]
-      movzx  eax, ax      ; extends ax into eax
-      movzx  eax, al      ; extends al into eax
-      movzx  ax, al       ; extends al into ax
-      movzx  ebx, ax      ; extends ax into ebx
+      movzx  eax, ax      ; estende ax em eax
+      movzx  eax, al      ; estende al em eax
+      movzx  ax, al       ; estende al em ax
+      movzx  ebx, ax      ; estende ax em ebx
 \end{AsmCodeListing}
 
-For signed numbers, there is no easy way to use the {\code MOV}
-instruction for any case. The 8086 provided several instructions to
-extend signed numbers.  The {\code CBW} \index{CBW} (Convert Byte to
-Word) instruction sign extends the AL register into AX. The operands
-are implicit. The {\code CWD} \index{CWD} (Convert Word to Double
-word) instruction sign extends AX into DX:AX. The notation DX:AX means
-to think of the DX and AX registers as one 32~bit register with the
-upper 16 bits in DX and the lower bits in AX. (Remember that the 8086
-did not have any 32~bit registers!) The 80386 added several new
-instructions. The {\code CWDE} \index{CWDE} (Convert Word to Double
-word Extended) instruction sign extends AX into EAX. The {\code CDQ}
-\index{CDQ} (Convert Double word to Quad word) instruction sign
-extends EAX into EDX:EAX\index{register!EDX:EAX} (64~bits!). Finally, the
-{\code MOVSX} \index{MOVSX} instruction works like {\code MOVZX}
-except it uses the rules for signed numbers.
+Para números com sinal, não há maneira fácil de utilizar a instrução {\code MOV}. 
+O 8086 providencias diversas instruções para estender
+números com sinal.  A instrução {\code CBW} \index{CBW} (Convert Byte to
+Word) estende o registrador AL em AX. Os operandos
+estão implícitos. A instrução {\code CWD} \index{CWD} (Convert Word to Double
+word) estende AX em DX:AX. A notação DX:AX significa
+enxergar os registradores DX e AX como um registrador de 32~bit com os
+ 16 bits superiores em DX e os bits inferiores em AX. (Lembre-se que o 8086
+não possui nenhum registrador de 32~bit!) O 80386 adicionou várias novas
+instruções. A instrução {\code CWDE} \index{CWDE} (Convert Word to Double
+word Extended) estende AX em EAX. A instrução {\code CDQ}
+\index{CDQ} (Convert Double word to Quad word) 
+estende EAX em EDX:EAX\index{register!EDX:EAX} (64~bits!). Finalmente, a
+instrução {\code MOVSX} \index{MOVSX} funciona similar a {\code MOVZX}
+exceto pelo fato de usar as regras para números com sinal.
 
-\subsubsection{Application to C programming}
+\subsubsection{Aplicação para programação em C}
 
-Extending \MarginNote{ANSI C does not define whether the {\code char}
-type is signed or not, it is up to each individual compiler to decide
-this. That is why the type is explicitly defined in
-Figure~\ref{fig:charExt}.} of unsigned and signed integers also occurs
-in C. Variables in C may be declared as either signed or unsigned
-({\code int} is signed). Consider the code in
-Figure~\ref{fig:charExt}.  In line~3, the variable {\code a} is
-extended using the rules for unsigned values (using {\code MOVZX}), but in 
-line~4, the signed rules are used for {\code b} (using {\code MOVSX}).
+Estender \MarginNote{ANSI C não define se o tipo {\code char}
+é com sinal ou não, vai de cada compilador decidir
+isto. Este é o motivo do tipo ser explicitamente definido em
+Figure~\ref{fig:charExt}.} inteiros com e sem sinal também ocorrem
+em C. Variáveis em C podem ser declaradas como como sinal ou sem sinal
+({\code int} é com sinal). Considere o código em 
+Figure~\ref{fig:charExt}.  Na linha~3, a variável {\code a} é
+estendida por meio das regras para valores sem sinal (usando {\code MOVZX}), mas na 
+linha~4, as regras para valores com sinal é utilizada em {\code b} (usando {\code MOVSX}).
 
 \begin{figure}[t]
 \begin{lstlisting}[frame=tlrb]{}
@@ -267,20 +267,20 @@ int b = (int) schar;     /* b = -1  (0xFFFFFFFF) */
 \label{fig:charExt}
 \end{figure}
 
-There is a common C programming bug that directly relates to this subject.
-Consider the code in Figure~\ref{fig:IObug}. The prototype of 
-{\code fgetc()}{\samepage is:
+Há um erro comum na programação em C diretamente relacionado com este assunto.
+Considere o código em Figure~\ref{fig:IObug}. O protótipo de 
+{\code fgetc()}{\samepage é:
 \begin{CodeQuote}
 int fgetc( FILE * );
 \end{CodeQuote}
-One might question }why does the function return back an {\code int}
-since it reads characters? The reason is that it normally does return
-back an {\code char} (extended to an {\code int} value using zero
-extension). However, there is one value that it may return that is not
-a character, {\code EOF}. This is a macro that is usually defined as
-$-1$. Thus, {\code fgetc()} either returns back a {\code char}
-extended to an {\code int} value (which looks like {\code 000000{\em
-xx}} in hex) or {\code EOF} (which looks like {\code FFFFFFFF} in
+Alguém poderia se perguntar }Por que a função retorna um {\code int}
+sendo que lê caracteres? A razão é que normalmenta ela retorna
+um {\code char} (estendido em um valor {\code int} utilizando a extenção
+zero). Contudo, existe um valor possível de ser retornado que não é
+um caractere, {\code EOF}. Este é um macro usualmente definido como 
+$-1$. Portando, {\code fgetc()} retorna ou um {\code char}
+estendido em um {\code int} (que é como {\code 000000{\em
+xx}} em hex) ou {\code EOF} (que é como {\code FFFFFFFF} em
 hex).
 
 \begin{figure}[t]
@@ -294,56 +294,56 @@ while( (ch = fgetc(fp)) != EOF ) {
 \label{fig:IObug}
 \end{figure}
 
-The basic problem with the program in Figure~\ref{fig:IObug} is that
-{\code fgetc()} returns an {\code int}, but this value is stored in a
-{\code char}. C will truncate the higher order bits to fit the {\code
-int} value into the {\code char}. The only problem is that the numbers
-(in hex) {\code 000000FF} and {\code FFFFFFFF} both will be truncated
-to the byte {\code FF}. Thus, the while loop can not distinguish
-between reading the byte {\code FF} from the file and end of file.
+O principal problema com o programa em Figure~\ref{fig:IObug} é que
+{\code fgetc()} retorna um {\code int}, mas este valor é alocado em um
+{\code char}. C irá truncar os bits de ordem superior para se adequar o valor {\code
+int} no {\code char}. O único problema é que ambos os números
+(em hex) {\code 000000FF} e {\code FFFFFFFF} serão truncados
+para o byte {\code FF}. Desta forma, o ciclo while não pode ser distinguido 
+entre o byte {\code FF} do arquivo e o fim do arquivo.
 
-Exactly what the code does in this case, depends on whether {\code char} is
-signed or unsigned. Why? Because in line~2, {\code ch} is compared with 
-{\code EOF}. Since {\code EOF} is an {\code int} value\footnote{It is a
-common misconception that files have an EOF character at their end. This is
-\emph{not} true!}, {\code ch} will be
-extended to an {\code int} so that two values being compared are of the
-same size\footnote{The reason for this requirement will be shown later.}.
-As Figure~\ref{fig:charExt} showed, where the variable is signed or 
-unsigned is very important.
+O que exatamente o código faz neste caso, depende de o {\code char} ser
+com ou sem sinal. Por quê? Porque na linha~2, {\code ch} é comparado com 
+{\code EOF}. Dado que {\code EOF} é um valor {\code int}\footnote{É um
+conceito errôneo comum pensar que arquivos possuem um caractere EOF em seu final. Isto
+\emph{não} é verdade!}, {\code ch} será
+estendido em um {\code int} de forma que os dois valores comparados são do 
+mesmo tamanho\footnote{O motivo desse requerimento será demonstrado posteriormente.}.
+Como mostrado por Figure~\ref{fig:charExt}, a variável ser com ou sem sinal 
+é bastante importante.
 
-If {\code char} is unsigned, {\code FF} is extended to be {\code
-000000FF}. This is compared to {\code EOF} ({\code FFFFFFFF}) and
-found to be not equal. Thus, the loop never ends!
+Caso {\code char} seja sem sinal, {\code FF} é estendido para {\code
+000000FF}. Isto é comparado com {\code EOF} ({\code FFFFFFFF}) e
+resulta em não ser igual. Assim, o ciclo nunca acaba!
 
-If {\code char} is signed, {\code FF} is extended to {\code
-FFFFFFFF}. This does compare as equal and the loop ends. However,
-since the byte {\code FF} may have been read from the file, the loop
-could be ending prematurely.
+Caso {\code char} é com sinal, {\code FF} é estendido para {\code
+FFFFFFFF}. Isto é comparado como igual e o ciclo tem fim. Contudo,
+como o byte {\code FF} pode ter sido lido do arquivo, o ciclo 
+pode ter terminado prematuramente.
 
-The solution to this problem is to define the {\code ch} variable as an
-{\code int}, not a {\code char}. When this is done, no truncating or
-extension is done in line~2. Inside the loop, it is safe to truncate the
-value since {\code ch} \emph{must} actually be a simple byte there.
+A solução para este problema é definir a variável {\code ch} como um
+{\code int}, não como um {\code char}. Quando isto é feito, não há truncamento ou
+extenção na linha~2. Dentro do ciclo, é seguro truncar o
+valor já que {\code ch} \emph{deve} de fato ser um simples byte ali.
 
 \index{integer!sign extension|)}
 \index{integer!representation|)}
 
-\subsection{Two's complement arithmetic \index{two's complement!arithmetic|(}}
+\subsection{Aritmética de complemento para dois \index{two's complement!arithmetic|(}}
 
-As was seen earlier, the {\code add} instruction performs addition and
-the {\code sub} instruction performs subtraction. Two of the bits in
-the FLAGS register that these instructions set are the \emph{overflow}
-and \emph{carry flag}. The overflow flag is set if the true result of
-the operation is too big to fit into the destination for signed
-arithmetic. The carry flag is set if there is a carry in the msb of an
-addition or a borrow in the msb of a subtraction. Thus, it can be used
-to detect overflow for unsigned arithmetic. The uses of the carry flag
-for signed arithmetic will be seen shortly. One of the great
-advantages of 2's~complement is that the rules for addition and
-subtraction are exactly the same as for unsigned integers. Thus,
-{\code add} and {\code sub} may be used on signed or unsigned
-integers.
+Como visto anteriormente, a instrução {\code add} efetua adição e
+a instrução {\code sub} efetua a subtração. Dois dos bits nos
+registradores FLAGS que são alterados por estas instruções são as bandeiras \emph{overflow}
+e \emph{carry}. A bandeira overflow é alterada caso o resultado verdadeiro da
+operação for grande demais para caber no destino reservado para artimética 
+com sinal. A bandeira carry é alterada se há um carry no bit mais significativo da
+adição ou um empréstimo no bit mais significativo da subtração. Deste modo, pode se usar
+para detectar overflow para aritmética sem sinal. O uso da bandeira carry 
+para aritmética com sinal será bisto brevemente. Uma das grandes vantagens
+do complemento para dois é que as regras para adição e 
+para subtração são exatamente as mesmas para os inteiros sem sinal. Assim,
+{\code add} e {\code sub} podem ser utilizados em inteiro com ou sem 
+sinal.
 \[
 \begin{array}{rrcrr}
  & 002\mathrm{C} & & & 44\\
@@ -351,34 +351,34 @@ integers.
  & 002\mathrm{B} & & & 43
 \end{array}
 \]
-There is a carry generated, but it is not part of the answer.
+Há um carry gerado, mas não faz parte da resposta.
 
 \index{integer!multiplication|(}
 \index{MUL|(}
 \index{IMUL|(}
-There are two different multiply and divide instructions. First, to
-multiply use either the {\code MUL} or {\code IMUL} instruction. The
-{\code MUL} instruction is used to multiply unsigned numbers and
-{\code IMUL} is used to multiply signed integers. Why are two
-different instructions needed? The rules for multiplication are
-different for unsigned and 2's complement signed numbers. How so?
-Consider the multiplication of the byte FF with itself yielding a word
-result. Using unsigned multiplication this is 255 times 255 or 65025
-(or FE01 in hex). Using signed multiplication this is $-1$ times $-1$ or
-1 (or 0001 in hex).
+Existem duas instruções diferentes para multiplicação e para divisão. Primeiro, para
+multiplicar utiliza-se a instrução {\code MUL} ou {\code IMUL}. A
+instrução {\code MUL} é usada para multiplicar números sem sinal e
+{\code IMUL} é utilizada para multiplicar inteiros com sinal. Por que são
+necessárias duas instruções diferentes? As regras para multiplicação são
+diferentes para números sem sinal e números complemento para dois com sinal. Como?
+Considere a multiplicação do byte FF por ele mesmo produzindo uma palavra
+como resultado. Utilizando a multiplicação sem sinal isto é 255 vezes 255 ou 65025
+(ou FE01 em hex). Utilizando a multiplicação com sinal isto é $-1$ vezes $-1$ ou
+1 (ou 0001 em hex).
 
-There are several forms of the multiplication instructions. The oldest
-form looks like:
+Há várias maneiras das instruções de multiplicação. A maneira mais 
+antiga é como:
 \begin{AsmCodeListing}[numbers=none,frame=none]
       mul   source
 \end{AsmCodeListing}
-The \emph{source} is either a register or a memory reference. It can not be an 
-immediate value. Exactly what multiplication is performed depends on the
-size of the source operand. If the operand is byte sized, it is multiplied by
-the byte in the AL register and the result is stored in the 16 bits of AX.
-If the source is 16-bit, it is multiplied by the word in AX and the 32-bit
-result is stored in DX:AX. If the source is 32-bit, it is multiplied by EAX
-and the 64-bit result is stored into EDX:EAX\index{register!EDX:EAX}.
+A \emph{fonte} é ou um registrador ou uma referência de memória. A fonte não pode ser  
+um valor imediato. Qual multiplicação exatamente é efetuada depende do
+tamanho do operando da fonte. Se o operando é do tamanho de byte, este é multiplicado pelo
+byte no registrador AL e o resultado é alocado em 16 bits de AX.
+Caso a fonte seja 16-bit, este é multiplicado pela palavra em AX e o resultado de 32-bit
+é alocado em DX:AX. Se a fonte é 32-bit, este é multiplicado por EAX
+e o resultado de 64-bit é alocado em EDX:EAX\index{register!EDX:EAX}.
 \index{MUL|)}
 
 \begin{table}[t]
@@ -404,20 +404,20 @@ reg32       & reg/mem32       & immed32       & dest = source1*source2 \\
 \caption{{\code imul} Instructions \label{tab:imul}}
 \end{table}
 
-The {\code IMUL} instruction has the same formats as {\code MUL}, but also
-adds some other instruction formats. There are two and three operand formats:
+A instrução {\code IMUL} possui o mesmo formato que {\code MUL}, porém também 
+adiciona alguns outros formatos de instrução. Existem formatos de dois e três operandos:
 \begin{AsmCodeListing}[numbers=none,frame=none]
       imul   dest, source1
       imul   dest, source1, source2
 \end{AsmCodeListing}
-Table~\ref{tab:imul} shows the possible combinations.
+Table~\ref{tab:imul} mostra as possíveis combinações.
 \index{IMUL|)}
 \index{integer!multiplication|)}
 
 \index{integer!division|(}
 \index{DIV}
-The two division operators are {\code DIV} and {\code IDIV}. They perform
-unsigned and signed integer division respectively. The general format is:
+Os dois operadores da divisão são {\code DIV} e {\code IDIV}. Eles efetuam a
+divisão de inteiros com e sem sinal, respectivamente. O formato geral é:
 \begin{AsmCodeListing}[numbers=none,frame=none]
       div   source
 \end{AsmCodeListing}
