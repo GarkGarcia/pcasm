@@ -1,80 +1,80 @@
 
-\chapter{Basic Assembly Language}
+\chapter{Linguagem de Assembly Básica}
 
-\section{Working with Integers \index{integer|(}}
+\section{Trabalhando com Inteiros \index{integer|(}}
 
-\subsection{Integer representation \index{integer!representation|(}}
+\subsection{Representação de Inteiros \index{integer!representation|(}}
 
 \index{integer!unsigned|(}
-Integers come in two flavors: unsigned and signed. Unsigned integers (which
-are non-negative) are represented in a very straightforward binary manner.
-The number 200 as an one byte unsigned integer would be represented as by
-11001000 (or C8 in hex).
+Inteiros vêm em dois sabores: sem sinal e com sinal. Inteiros sem sinal (que 
+são não negativos) são representados de uma maneira bem direta em binário.
+O número 200 como um inteiro sem sinal de um byte seria representado por
+11001000 (ou C8 em hex).
 \index{integer!unsigned|)}
 
 \index{integer!signed|(}
-Signed integers (which may be positive or negative) are represented in a more
-complicated ways. For example, consider $-56$. $+56$ as a byte would be
-represented by 00111000. On paper, one could represent $-56$ as $-111000$,
-but how would this be represented in a byte in the computer's memory.
-How would the minus sign be stored?
+Inteiros com sinal (que podem ser positivo ou negativo) são representados de maneira
+mais complicada. Por exemplo, considere $-56$. $+56$ como um byte seria
+representado por 00111000. Na teoria, poderíamos representar $-56$ como $-111000$,
+mas como isso seria representado em um byte na memória do computador?
+Como o sinal negativo seria alocado?
 
-There are three general techniques that have been used to represent
-signed integers in computer memory. All of these methods use the most
-significant bit of the integer as a \emph{sign
-bit}. \index{integer!sign bit} This bit is 0 if the number is positive
-and 1 if negative.
+Existem três técnicas gerais que vêm sendo usada para representar
+inteiros com sinal na memória do computador. Todos estes métodos usam o bit
+mais significativo do inteiro como um \emph{bit
+de sinal}. \index{integer!sign bit} Este bit será 0 se o número for positivo
+e 1 se for negativo.
 
-\subsubsection{Signed magnitude \index{integer!representation!signed magnitude}}
+\subsubsection{Sinal-e-magnitude \index{integer!representation!signed magnitude}}
 
-The first method is the simplest and is called \emph{signed magnitude}. It
-represents the integer as two parts. The first part is the sign bit and
-the second is the magnitude of the integer. So 56 would be represented as
-the byte $\underline{0}0111000$ (the sign bit is underlined) and $-56$
-would be $\underline{1}0111000$. The largest byte value would be
-$\underline{0}1111111$ or $+127$ and the smallest byte value would be
-$\underline{1}1111111$ or $-127$. To negate a value, the sign bit is reversed.
-This method is straightforward, but it does have its drawbacks. First,
-there are two possible values of zero, $+0$ ($\underline{0}0000000$) and
-$-0$ ($\underline{1}0000000$). Since zero is neither positive nor negative,
-both of these representations should act the same. This complicates the logic
-of arithmetic for the CPU. Secondly, general arithmetic is also complicated.
-If 10 is added to $-56$, this must be recast as 10 subtracted by 56. Again,
-this complicates the logic of the CPU.
+O primeiro método é o mais simples e se chama \emph{sinal-e-magnitude} (ou sinal-magnitude). Ele 
+representa o inteiro como duas partes. A primeira parte é o bit de sinal e 
+a segunda parte é a magnitude do inteiro. Neste caso, 56 seria representado como
+o byte $\underline{0}0111000$ (o bit de sinal está sublinhado) e $-56$
+seria $\underline{1}0111000$. O maior valor de byte seria
+$\underline{0}1111111$ ou $+127$ e o menor valor de byte seria 
+$\underline{1}1111111$ ou $-127$. Para negar um valor, o bit de sinal é invertido.
+Este método é direto, mas tem suas desvantagens. Primeiro,
+há dois possíveis valores de zero, $+0$ ($\underline{0}0000000$) e
+$-0$ ($\underline{1}0000000$). Como zero não é positivo nem negativo,
+ambas representações devem agir da mesma forma. Isto complica a lógica 
+da arimética da CPU. Segundo, aritmética geral é também complicada.
+Se 10 é adicionado a $-56$, isso deve ser reformulado como 10 subtraído de 56. Novamente,
+isso complica a lógica da CPU.
 
-\subsubsection{One's complement \index{integer!representation!one's complement}}
-The second method is known as \emph{one's complement} representation. The
-one's complement of a number is found by reversing each bit in the number.
-(Another way to look at it is that the new bit value is $1 - \mathrm{old bit value}$.) 
-For example, the one's complement of 
-$\underline{0}0111000$ ($+56$) is $\underline{1}1000111$. In one's complement
-notation, computing the one's complement is equivalent to negation. Thus,
-$\underline{1}1000111$ is the representation for $-56$. Note that the sign
-bit was automatically changed by one's complement and that as one would
-expect taking the one's complement twice yields the original number. As for
-the first method, there are two representations of zero: 
-$\underline{0}0000000$ ($+0$) and $\underline{1}1111111$ ($-0$). Arithmetic
-with one's complement numbers is complicated.
+\subsubsection{Complemento para um \index{integer!representation!one's complement}}
+O segundo método é conhecido como \emph{complemento para um}. O
+complemento para um de algum número é encontrado ao inverter cada bit no número.
+(Outra forma de compreender isso é que o novo valor de bit será $1 - \mathrm{antigo valor de bit}$.) 
+Por exemplo, o complemento para um de 
+$\underline{0}0111000$ ($+56$) é $\underline{1}1000111$. Na notação de complemento
+para um, calcular o complemento para um é equivalente a negação. Assim,
+$\underline{1}1000111$ é a representação para $-56$. Note que o bit de 
+sinal foi alterado automaticamente pelo complemento para um e como é de se esperar 
+tomar o complemento para um duas vezes produz o número original. Assim como no
+primeiro método, existem duas representações de zero: 
+$\underline{0}0000000$ ($+0$) e $\underline{1}1111111$ ($-0$). Artimética 
+com o complemento para um é complicada.
 
-There is a handy trick to finding the one's complement of a number in
-hexadecimal without converting it to binary. The trick is to subtract the
-hex digit from F (or 15 in decimal). This method assumes that the number of
-bits in the number is a multiple of 4. Here is an example: $+56$ is
-represented by 38 in hex. To find the one's complement, subtract each
-digit from F to get C7 in hex. This agrees with the result above.
+Há um truque útil para encontrar o complemento para um de um número em
+hexadecimal sem convertê-lo em binário. O truque é subtrair o dígito
+hex do F (ou 15 in decimal). Este método assume que o número de
+bits no número é um múltiplo de 4. Tome como exemplo: $+56$ é
+representado por 38 em hex. Para encontrar seu complemento para um, subtraia cada
+dígito de F para conseguir C7 em hex. Isso esta coerente com o resultado acima.
 
-\subsubsection{Two's complement \index{integer!representation!two's complement|(}
+\subsubsection{Complemento para dois \index{integer!representation!two's complement|(}
                \index{two's complement|(}}
 
-The first two methods described were used on early computers. Modern computers
-use a third method called \emph{two's complement} representation. The two's
-complement of a number is found by the following two steps:
+Os primeiros dois métodos descritos eram usados em computadores antigos. Computadores modernos
+usam um terceiro método chamado \emph{complemento para dois}. O complemento
+para dois de um número é encontrado a partir de dois passos:
 \begin{enumerate}
-\item Find the one's complement of the number
-\item Add one to the result of step 1
+\item Encontre o complemento para um do número em questão
+\item Adicione um ao resultado encontrado no item anterior
 \end{enumerate}
-Here's an example using $\underline{0}0111000$ (56). First the one's complement
-is computed: $\underline{1}1000111$. Then one is added:
+Veja um exemplo com $\underline{0}0111000$ (56). Primeiro calculamos o
+complemento para um: $\underline{1}1000111$. Depois adicionamos um ao resultado:
 \[
 \begin{array}{rr}
  & \underline{1}1000111 \\
@@ -83,11 +83,11 @@ is computed: $\underline{1}1000111$. Then one is added:
 \end{array}
 \]
 
-In two complement's notation, computing the two's complement is equivalent
-to negating a number. Thus, $\underline{1}1001000$ is the two's complement
-representation of $-56$. Two negations should reproduce the original number.
-Surprising two's complement does meet this requirement. Take the two's
-complement of $\underline{1}1001000$ by adding one to the one's complement.
+Na notação de complemento para dois, calcular o complemento para dois é equivalente
+a negar um número. Portanto, $\underline{1}1001000$ é a representação do complemento
+para dois de $-56$. Duas negações devem reproduzir o número original.
+Surpreendentemente complemento para dois atende a este requisito. Tome o complemento
+para dois de $\underline{1}1001000$ adicionando um ao complemento para um.
 \[
 \begin{array}{rr}
  & \underline{0}0110111 \\
@@ -96,14 +96,14 @@ complement of $\underline{1}1001000$ by adding one to the one's complement.
 \end{array}
 \]
 
-When performing the addition in the two's complement operation, the addition
-of the leftmost bit may produce a carry. This carry is \emph{not} used. 
-Remember that all data on the computer is of some fixed size (in terms of
-number of bits). Adding two bytes always produces a byte as a result (just
-as adding two words produces a word, {\em etc\/}.) This property is important 
-for two's complement notation. For example, consider zero as a one byte
-two's complement number ($\underline{0}0000000$). Computing its two complement
-produces the sum:
+Quando realizamos a adição numa operação de complemento para dois, a adição
+do bit mais à esquerda pode produzir um carry. Este carry \emph{não} é usado. 
+Lembre-se que todos os dados no computador são de algum tamanho fixo (em termos de 
+números de bits). Adicionar dois bytes sempre produz um byte como resultado (assim
+como unir duas palavras produz uma palavra, {\em etc\/}.) Esta propriedade é importante 
+para a notação de complemento para dois. Por exemplo, considere zero como um número de
+complemento para dois de um byte ($\underline{0}0000000$). Calcular seu complemento para dois
+resulta na soma:
 \[
 \begin{array}{rr}
  & \underline{1}1111111 \\
@@ -111,16 +111,16 @@ produces the sum:
 c& \underline{0}0000000
 \end{array}
 \]
-where $c$ represents a carry. (Later it will be shown how to detect this carry,
-but it is not stored in the result.) Thus, in two's complement notation there
-is only one zero. This makes two's complement arithmetic simpler than the
-previous methods.
+em que $c$ representa um carry. (Posteriormente será mostrado como detectar este carry,
+porém ele não é alocado no resultado.) Assim, na notação de complemento para dois existe
+apenas um zero. Isto faz a aritmética de complemento para dois ser mais simples do que aquelas 
+dos métodos anteriores.
 
 \begin{table}
 \centering
 \begin{tabular}{||c|c||}
 \hline
-Number & Hex Representation \\
+Número & Representação Hex \\
 \hline
 0 & 00 \\
 1 & 01 \\
@@ -131,130 +131,130 @@ Number & Hex Representation \\
 -1 & FF \\
 \hline
 \end{tabular}
-\caption{Two's Complement Representation \label{tab:twocomp}}
+\caption{Representação de Complemento para Dois \label{tab:twocomp}}
 \end{table}
 
-Using two's complement notation, a signed byte can be used to
-represent the numbers $-128$ to $+127$. Table~\ref{tab:twocomp} shows some
-selected values. If 16 bits are used, the signed numbers $-32,768$ to 
-$+32,767$ can be represented. $+32,767$ is represented by 7FFF, 
-$-32,768$ by 8000, -128 as FF80 and -1 as FFFF. 32 bit two's complement 
-numbers range from $-2$ billion to $+2$ billion approximately. 
+Usando a notação de complemento para dois, um byte com sinal pode ser usado para
+representar os números de $-128$ a $+127$. A tabela~\ref{tab:twocomp} mostra alguns
+valores selecionados. Se são usados 16 bits, os números com sinal de $-32,768$ a 
+$+32,767$ podem ser representados. $+32,767$ é representado por 7FFF, 
+$-32,768$ por 8000, -128 por FF80 e -1 por FFFF. Os números de 32 bit em complemento 
+para dois no intervalo de $-2$ bilhões a $+2$ bilhões aproximadamente. 
 
 
-The CPU has no idea what a particular byte (or word or double word) is
-supposed to represent. Assembly does not have the idea of types that a
-high level language has. How data is interpreted depends on what instruction
-is used on the data. Whether the hex value FF is considered to represent
-a signed $-1$ or a unsigned $+255$ depends on the programmer. The C language
-defines signed and unsigned integer types. This allows a C compiler to
-determine the correct instructions to use with the data.
+A CPU tem ideia nenhuma idea do que um byte em particular (ou palavra ou palavra dupla) 
+deveria representar. Assembly não possui a ideia de tipos que uma
+linguagem de alto nível possui. A interpretação dos dados depende de qual instrução
+é usada com o dado. Se o valor hex FF será considerado para representar
+um número com sinal $-1$ ou um número sem sinal $+255$ dependerá da programadora. A linguagem C 
+define tipos de inteiro com sinal e sem sinal. Isso permite um compilador de C a 
+determinar a instrução correta a ser usada com o dado.
 
 \index{two's complement|)}
 \index{integer!representation!two's complement|)}
 \index{integer!signed|)}
 
-\subsection{Sign extension \index{integer!sign extension|(}}
+\subsection{Extensão de sinal \index{integer!sign extension|(}}
 
-In assembly, all data has a specified size. It is not uncommon to need to
-change the size of data to use it with other data. Decreasing size is the
-easiest.
+Em assembly, todo dado tem um tamanho específico. Não é incomum ter de precisar 
+mudar o tamanho de um dado para usá-lo com outro dado. Reduzir o tamanho é o 
+mais fácil.
 
-\subsubsection{Decreasing size of data}
+\subsubsection{Reduzindo o tamanho de dados}
 
-To decrease the size of data, simply remove the more significant bits of the
-data. Here's a trivial example:
+Para reduzir o tamanho do dado, basta remover os bits mais significativos do
+dado. Veja um exemplo trivial:
 \begin{AsmCodeListing}[numbers=none,frame=none]
-      mov    ax, 0034h      ; ax = 52 (stored in 16 bits)
-      mov    cl, al         ; cl = lower 8-bits of ax
+      mov    ax, 0034h      ; ax = 52 (alocado 16 bits)
+      mov    cl, al         ; cl = 8-bits a menos do que ax
 \end{AsmCodeListing}
 
-Of course, if the number can not be represented correctly in the smaller
-size, decreasing the size does not work. For example, if {\code AX}
-were 0134h (or 308 in decimal) then the above code would still set
-{\code CL} to 34h. This method works with both signed and unsigned
-numbers.  Consider signed numbers, if {\code AX} was FFFFh ($-1$ as a
-word), then {\code CL} would be FFh ($-1$ as a byte). However, note
-that this is not correct if the value in {\code AX} was unsigned!
+Claro, se o número não puder ser representado corretamente no tamanho
+menor, reduzir o tamanho não irá funcionar. Por exemplo, se {\code AX}
+for 0134h (ou 308 em decimal) então o código acima ainda armazenaria 
+{\code CL} para 34h. Este método funciona tanto para números com sinal
+quanto para números sem sinal. Considere números com sinal, se {\code AX} for FFFFh ($-1$ como uma
+palavra), então {\code CL} seria FFh ($-1$ como um byte). Entretanto, note
+que isto não é correto se o valor em {\code AX} for sem sinal!
 
-The rule for unsigned numbers is that all the bits being removed must
-be 0 for the conversion to be correct. The rule for signed numbers is
-that the bits being removed must be either all 1's or all 0's. In
-addition, the first bit not being removed must have the same value as
-the removed bits. This bit will be the new sign bit of the smaller value.
-It is important that it be same as the original sign bit!
+A regra para números sem sinal é que todos os bits a serem removidos devem
+ser 0 para a conversão ser correta. A regra para números com sinal é
+que os bits a serem removidos devem ser ou todos 1 ou todos 0. Ademais,
+o primeiro bit não removido deve ter o mesmo valor que os bits
+removidos. Este bit será o novo bit de sinal do valor de tamanho menor.
+É importante que seja igual ao bit de sinal do valor original!
 
-\subsubsection{Increasing size of data}
+\subsubsection{Aumentando o tamanho de dados}
 
-Increasing the size of data is more complicated than
-decreasing. Consider the hex byte FF. If it is extended to a word,
-what value should the word have?  It depends on how FF is
-interpreted. If FF is a unsigned byte (255 in decimal), then the word
-should be 00FF; however, if it is a signed byte ($-1$ in decimal),
-then the word should be FFFF.
+Aumentar o tamanho do dado é mais complicado do que
+reduzir. Considere o hex byte FF. Caso ele seja estendido para uma palavra,
+qual valor a palavra deveria ter? Isso depende da forma como FF é
+interpretada. Se FF é um byte sem sinal (255 em decimal), então a palavra
+deverá ser 00FF; contudo, se for um byte com sinal ($-1$ em decimal),
+então a palavra será FFFF.
 
-In general, to extend an unsigned number, one makes all the new bits
-of the expanded number 0. Thus, FF becomes 00FF. However, to extend a
-signed number, one must \emph{extend} the sign
-bit. \index{integer!sign bit} This means that the new bits become
-copies of the sign bit. Since the sign bit of FF is 1, the new bits
-must also be all ones, to produce FFFF. If the signed number 5A (90 in
-decimal) was extended, the result would be 005A.
+Em geral, para estender um número sem sinal, faça todo os novos bits
+do número expandido serem 0 (zeros). Deste modo, FF torna-se 00FF. Entretando, para estender um
+número com sinal, deverá \emph{estender} o bit de sinal. 
+\index{integer!sign bit} Isso quer dizer que os novos bits tornam-se
+cópias do bit de sinal. Como o bit de sinal de FF é 1, os novos bits
+também devem ser uns, para produzir FFFF. Caso extendêssemos o número com sinal 5A (90 in
+decimal), o resultado seria 005A.
 
-There are several instructions that the 80386 provides for extension of
-numbers. Remember that the computer does not know whether a number is signed
-or unsigned. It is up to the programmer to use the correct instruction.
+Existem várias instruções que o 80386 providencia para a estenção de
+números. Lembre-se que o computador não sabe quando um número é com sinal
+ou sem sinal. Vai da programadora utilizar a instrução correta.
 
-For unsigned numbers, one can simply put zeros in the upper bits using a
-{\code MOV} instruction. For example, to extend the byte in AL to an unsigned
-word in AX:
+Para números com sinal, pode-se simplesmente posicionar zeros nos bits superiores usando
+a instrução {\code MOV}. Por exemplo, para estender o byte em AL para uma palavra 
+sem sinal em AX:
 \begin{AsmCodeListing}[numbers=none,frame=none]
-      mov    ah, 0   ; zero out upper 8-bits
+      mov    ah, 0   ; zere 8-bits superiores
 \end{AsmCodeListing}
-However, it is not possible to use a {\code MOV} instruction to
-convert the unsigned word in AX to an unsigned double word in EAX. Why
-not? There is no way to specify the upper 16 bits of EAX in a {\code
-MOV}. The 80386 solves this problem by providing a new instruction
-{\code MOVZX}. \index{MOVZX} This instruction has two operands. The destination
-(first operand) must be a 16 or 32~bit register.  The source (second
-operand) may be an 8 or 16~bit register or a byte or word of
-memory. The other restriction is that the destination must be larger than
-the source. (Most instructions require the source and destination to be
-the same size.) Here are some examples:
+Entretanto, não é possível utilizar a instrução {\code MOV} para
+converter palavra sem sinal em AX em uma palavra dupla sem sinal em EAX. Por
+que não? Bom, não há como especificar os 16 bits superiores de EAX em uma {\code
+MOV}. O 80386 soluciona este problema providenciando uma nova instrução
+{\code MOVZX}. \index{MOVZX} Esta instrução tem dois operandos. O destino
+(primeiro operando) deve ser um registrador de 16 ou 32~bit.  A fonte (segundo
+operando) pode ser um registrador de 8 ou 16~bit ou um byte ou palavra de 
+memória. A outra restrição é que o destino deve ser maior do que
+a fonte. (Maioria das instruções requer que a fonte e o destino tenham
+o mesmo tamanho.) Aqui vão alguns exemplos:
 \begin{AsmCodeListing}[numbers=none,frame=none]
-      movzx  eax, ax      ; extends ax into eax
-      movzx  eax, al      ; extends al into eax
-      movzx  ax, al       ; extends al into ax
-      movzx  ebx, ax      ; extends ax into ebx
+      movzx  eax, ax      ; estende ax em eax
+      movzx  eax, al      ; estende al em eax
+      movzx  ax, al       ; estende al em ax
+      movzx  ebx, ax      ; estende ax em ebx
 \end{AsmCodeListing}
 
-For signed numbers, there is no easy way to use the {\code MOV}
-instruction for any case. The 8086 provided several instructions to
-extend signed numbers.  The {\code CBW} \index{CBW} (Convert Byte to
-Word) instruction sign extends the AL register into AX. The operands
-are implicit. The {\code CWD} \index{CWD} (Convert Word to Double
-word) instruction sign extends AX into DX:AX. The notation DX:AX means
-to think of the DX and AX registers as one 32~bit register with the
-upper 16 bits in DX and the lower bits in AX. (Remember that the 8086
-did not have any 32~bit registers!) The 80386 added several new
-instructions. The {\code CWDE} \index{CWDE} (Convert Word to Double
-word Extended) instruction sign extends AX into EAX. The {\code CDQ}
-\index{CDQ} (Convert Double word to Quad word) instruction sign
-extends EAX into EDX:EAX\index{register!EDX:EAX} (64~bits!). Finally, the
-{\code MOVSX} \index{MOVSX} instruction works like {\code MOVZX}
-except it uses the rules for signed numbers.
+Para números com sinal, não há maneira fácil de utilizar a instrução {\code MOV}. 
+O 8086 providencias diversas instruções para estender
+números com sinal.  A instrução {\code CBW} \index{CBW} (Convert Byte to
+Word) estende o registrador AL em AX. Os operandos
+estão implícitos. A instrução {\code CWD} \index{CWD} (Convert Word to Double
+word) estende AX em DX:AX. A notação DX:AX significa
+enxergar os registradores DX e AX como um registrador de 32~bit com os
+ 16 bits superiores em DX e os bits inferiores em AX. (Lembre-se que o 8086
+não possui nenhum registrador de 32~bit!) O 80386 adicionou várias novas
+instruções. A instrução {\code CWDE} \index{CWDE} (Convert Word to Double
+word Extended) estende AX em EAX. A instrução {\code CDQ}
+\index{CDQ} (Convert Double word to Quad word) 
+estende EAX em EDX:EAX\index{register!EDX:EAX} (64~bits!). Finalmente, a
+instrução {\code MOVSX} \index{MOVSX} funciona similar a {\code MOVZX}
+exceto pelo fato de usar as regras para números com sinal.
 
-\subsubsection{Application to C programming}
+\subsubsection{Aplicação para programação em C}
 
-Extending \MarginNote{ANSI C does not define whether the {\code char}
-type is signed or not, it is up to each individual compiler to decide
-this. That is why the type is explicitly defined in
-Figure~\ref{fig:charExt}.} of unsigned and signed integers also occurs
-in C. Variables in C may be declared as either signed or unsigned
-({\code int} is signed). Consider the code in
-Figure~\ref{fig:charExt}.  In line~3, the variable {\code a} is
-extended using the rules for unsigned values (using {\code MOVZX}), but in 
-line~4, the signed rules are used for {\code b} (using {\code MOVSX}).
+Estender \MarginNote{ANSI C não define se o tipo {\code char}
+é com sinal ou não, vai de cada compilador decidir
+isto. Este é o motivo do tipo ser explicitamente definido em
+Figure~\ref{fig:charExt}.} inteiros com e sem sinal também ocorrem
+em C. Variáveis em C podem ser declaradas como como sinal ou sem sinal
+({\code int} é com sinal). Considere o código em 
+Figure~\ref{fig:charExt}.  Na linha~3, a variável {\code a} é
+estendida por meio das regras para valores sem sinal (usando {\code MOVZX}), mas na 
+linha~4, as regras para valores com sinal é utilizada em {\code b} (usando {\code MOVSX}).
 
 \begin{figure}[t]
 \begin{lstlisting}[frame=tlrb]{}
@@ -267,20 +267,20 @@ int b = (int) schar;     /* b = -1  (0xFFFFFFFF) */
 \label{fig:charExt}
 \end{figure}
 
-There is a common C programming bug that directly relates to this subject.
-Consider the code in Figure~\ref{fig:IObug}. The prototype of 
-{\code fgetc()}{\samepage is:
+Há um erro comum na programação em C diretamente relacionado com este assunto.
+Considere o código em Figure~\ref{fig:IObug}. O protótipo de 
+{\code fgetc()}{\samepage é:
 \begin{CodeQuote}
 int fgetc( FILE * );
 \end{CodeQuote}
-One might question }why does the function return back an {\code int}
-since it reads characters? The reason is that it normally does return
-back an {\code char} (extended to an {\code int} value using zero
-extension). However, there is one value that it may return that is not
-a character, {\code EOF}. This is a macro that is usually defined as
-$-1$. Thus, {\code fgetc()} either returns back a {\code char}
-extended to an {\code int} value (which looks like {\code 000000{\em
-xx}} in hex) or {\code EOF} (which looks like {\code FFFFFFFF} in
+Alguém poderia se perguntar }Por que a função retorna um {\code int}
+sendo que lê caracteres? A razão é que normalmenta ela retorna
+um {\code char} (estendido em um valor {\code int} utilizando a extenção
+zero). Contudo, existe um valor possível de ser retornado que não é
+um caractere, {\code EOF}. Este é um macro usualmente definido como 
+$-1$. Portando, {\code fgetc()} retorna ou um {\code char}
+estendido em um {\code int} (que é como {\code 000000{\em
+xx}} em hex) ou {\code EOF} (que é como {\code FFFFFFFF} em
 hex).
 
 \begin{figure}[t]
@@ -294,56 +294,56 @@ while( (ch = fgetc(fp)) != EOF ) {
 \label{fig:IObug}
 \end{figure}
 
-The basic problem with the program in Figure~\ref{fig:IObug} is that
-{\code fgetc()} returns an {\code int}, but this value is stored in a
-{\code char}. C will truncate the higher order bits to fit the {\code
-int} value into the {\code char}. The only problem is that the numbers
-(in hex) {\code 000000FF} and {\code FFFFFFFF} both will be truncated
-to the byte {\code FF}. Thus, the while loop can not distinguish
-between reading the byte {\code FF} from the file and end of file.
+O principal problema com o programa em Figure~\ref{fig:IObug} é que
+{\code fgetc()} retorna um {\code int}, mas este valor é alocado em um
+{\code char}. C irá truncar os bits de ordem superior para se adequar o valor {\code
+int} no {\code char}. O único problema é que ambos os números
+(em hex) {\code 000000FF} e {\code FFFFFFFF} serão truncados
+para o byte {\code FF}. Desta forma, o ciclo while não pode ser distinguido 
+entre o byte {\code FF} do arquivo e o fim do arquivo.
 
-Exactly what the code does in this case, depends on whether {\code char} is
-signed or unsigned. Why? Because in line~2, {\code ch} is compared with 
-{\code EOF}. Since {\code EOF} is an {\code int} value\footnote{It is a
-common misconception that files have an EOF character at their end. This is
-\emph{not} true!}, {\code ch} will be
-extended to an {\code int} so that two values being compared are of the
-same size\footnote{The reason for this requirement will be shown later.}.
-As Figure~\ref{fig:charExt} showed, where the variable is signed or 
-unsigned is very important.
+O que exatamente o código faz neste caso, depende de o {\code char} ser
+com ou sem sinal. Por quê? Porque na linha~2, {\code ch} é comparado com 
+{\code EOF}. Dado que {\code EOF} é um valor {\code int}\footnote{É um
+conceito errôneo comum pensar que arquivos possuem um caractere EOF em seu final. Isto
+\emph{não} é verdade!}, {\code ch} será
+estendido em um {\code int} de forma que os dois valores comparados são do 
+mesmo tamanho\footnote{O motivo desse requerimento será demonstrado posteriormente.}.
+Como mostrado por Figure~\ref{fig:charExt}, a variável ser com ou sem sinal 
+é bastante importante.
 
-If {\code char} is unsigned, {\code FF} is extended to be {\code
-000000FF}. This is compared to {\code EOF} ({\code FFFFFFFF}) and
-found to be not equal. Thus, the loop never ends!
+Caso {\code char} seja sem sinal, {\code FF} é estendido para {\code
+000000FF}. Isto é comparado com {\code EOF} ({\code FFFFFFFF}) e
+resulta em não ser igual. Assim, o ciclo nunca acaba!
 
-If {\code char} is signed, {\code FF} is extended to {\code
-FFFFFFFF}. This does compare as equal and the loop ends. However,
-since the byte {\code FF} may have been read from the file, the loop
-could be ending prematurely.
+Caso {\code char} é com sinal, {\code FF} é estendido para {\code
+FFFFFFFF}. Isto é comparado como igual e o ciclo tem fim. Contudo,
+como o byte {\code FF} pode ter sido lido do arquivo, o ciclo 
+pode ter terminado prematuramente.
 
-The solution to this problem is to define the {\code ch} variable as an
-{\code int}, not a {\code char}. When this is done, no truncating or
-extension is done in line~2. Inside the loop, it is safe to truncate the
-value since {\code ch} \emph{must} actually be a simple byte there.
+A solução para este problema é definir a variável {\code ch} como um
+{\code int}, não como um {\code char}. Quando isto é feito, não há truncamento ou
+extenção na linha~2. Dentro do ciclo, é seguro truncar o
+valor já que {\code ch} \emph{deve} de fato ser um simples byte ali.
 
 \index{integer!sign extension|)}
 \index{integer!representation|)}
 
-\subsection{Two's complement arithmetic \index{two's complement!arithmetic|(}}
+\subsection{Aritmética de complemento para dois \index{two's complement!arithmetic|(}}
 
-As was seen earlier, the {\code add} instruction performs addition and
-the {\code sub} instruction performs subtraction. Two of the bits in
-the FLAGS register that these instructions set are the \emph{overflow}
-and \emph{carry flag}. The overflow flag is set if the true result of
-the operation is too big to fit into the destination for signed
-arithmetic. The carry flag is set if there is a carry in the msb of an
-addition or a borrow in the msb of a subtraction. Thus, it can be used
-to detect overflow for unsigned arithmetic. The uses of the carry flag
-for signed arithmetic will be seen shortly. One of the great
-advantages of 2's~complement is that the rules for addition and
-subtraction are exactly the same as for unsigned integers. Thus,
-{\code add} and {\code sub} may be used on signed or unsigned
-integers.
+Como visto anteriormente, a instrução {\code add} efetua adição e
+a instrução {\code sub} efetua a subtração. Dois dos bits nos
+registradores FLAGS que são alterados por estas instruções são as bandeiras \emph{overflow}
+e \emph{carry}. A bandeira overflow é alterada caso o resultado verdadeiro da
+operação for grande demais para caber no destino reservado para artimética 
+com sinal. A bandeira carry é alterada se há um carry no bit mais significativo da
+adição ou um empréstimo no bit mais significativo da subtração. Deste modo, pode se usar
+para detectar overflow para aritmética sem sinal. O uso da bandeira carry 
+para aritmética com sinal será bisto brevemente. Uma das grandes vantagens
+do complemento para dois é que as regras para adição e 
+para subtração são exatamente as mesmas para os inteiros sem sinal. Assim,
+{\code add} e {\code sub} podem ser utilizados em inteiro com ou sem 
+sinal.
 \[
 \begin{array}{rrcrr}
  & 002\mathrm{C} & & & 44\\
@@ -351,34 +351,34 @@ integers.
  & 002\mathrm{B} & & & 43
 \end{array}
 \]
-There is a carry generated, but it is not part of the answer.
+Há um carry gerado, mas não faz parte da resposta.
 
 \index{integer!multiplication|(}
 \index{MUL|(}
 \index{IMUL|(}
-There are two different multiply and divide instructions. First, to
-multiply use either the {\code MUL} or {\code IMUL} instruction. The
-{\code MUL} instruction is used to multiply unsigned numbers and
-{\code IMUL} is used to multiply signed integers. Why are two
-different instructions needed? The rules for multiplication are
-different for unsigned and 2's complement signed numbers. How so?
-Consider the multiplication of the byte FF with itself yielding a word
-result. Using unsigned multiplication this is 255 times 255 or 65025
-(or FE01 in hex). Using signed multiplication this is $-1$ times $-1$ or
-1 (or 0001 in hex).
+Existem duas instruções diferentes para multiplicação e para divisão. Primeiro, para
+multiplicar utiliza-se a instrução {\code MUL} ou {\code IMUL}. A
+instrução {\code MUL} é usada para multiplicar números sem sinal e
+{\code IMUL} é utilizada para multiplicar inteiros com sinal. Por que são
+necessárias duas instruções diferentes? As regras para multiplicação são
+diferentes para números sem sinal e números complemento para dois com sinal. Como?
+Considere a multiplicação do byte FF por ele mesmo produzindo uma palavra
+como resultado. Utilizando a multiplicação sem sinal isto é 255 vezes 255 ou 65025
+(ou FE01 em hex). Utilizando a multiplicação com sinal isto é $-1$ vezes $-1$ ou
+1 (ou 0001 em hex).
 
-There are several forms of the multiplication instructions. The oldest
-form looks like:
+Há várias maneiras das instruções de multiplicação. A maneira mais 
+antiga é como:
 \begin{AsmCodeListing}[numbers=none,frame=none]
       mul   source
 \end{AsmCodeListing}
-The \emph{source} is either a register or a memory reference. It can not be an 
-immediate value. Exactly what multiplication is performed depends on the
-size of the source operand. If the operand is byte sized, it is multiplied by
-the byte in the AL register and the result is stored in the 16 bits of AX.
-If the source is 16-bit, it is multiplied by the word in AX and the 32-bit
-result is stored in DX:AX. If the source is 32-bit, it is multiplied by EAX
-and the 64-bit result is stored into EDX:EAX\index{register!EDX:EAX}.
+A \emph{fonte} é ou um registrador ou uma referência de memória. A fonte não pode ser  
+um valor imediato. Qual multiplicação exatamente é efetuada depende do
+tamanho do operando da fonte. Se o operando é do tamanho de byte, este é multiplicado pelo
+byte no registrador AL e o resultado é alocado em 16 bits de AX.
+Caso a fonte seja 16-bit, este é multiplicado pela palavra em AX e o resultado de 32-bit
+é alocado em DX:AX. Se a fonte é 32-bit, este é multiplicado por EAX
+e o resultado de 64-bit é alocado em EDX:EAX\index{register!EDX:EAX}.
 \index{MUL|)}
 
 \begin{table}[t]
@@ -404,52 +404,52 @@ reg32       & reg/mem32       & immed32       & dest = source1*source2 \\
 \caption{{\code imul} Instructions \label{tab:imul}}
 \end{table}
 
-The {\code IMUL} instruction has the same formats as {\code MUL}, but also
-adds some other instruction formats. There are two and three operand formats:
+A instrução {\code IMUL} possui o mesmo formato que {\code MUL}, porém também 
+adiciona alguns outros formatos de instrução. Existem formatos de dois e três operandos:
 \begin{AsmCodeListing}[numbers=none,frame=none]
       imul   dest, source1
       imul   dest, source1, source2
 \end{AsmCodeListing}
-Table~\ref{tab:imul} shows the possible combinations.
+Table~\ref{tab:imul} mostra as possíveis combinações.
 \index{IMUL|)}
 \index{integer!multiplication|)}
 
 \index{integer!division|(}
 \index{DIV}
-The two division operators are {\code DIV} and {\code IDIV}. They perform
-unsigned and signed integer division respectively. The general format is:
+Os dois operadores da divisão são {\code DIV} e {\code IDIV}. Eles efetuam a
+divisão de inteiros com e sem sinal, respectivamente. O formato geral é:
 \begin{AsmCodeListing}[numbers=none,frame=none]
       div   source
 \end{AsmCodeListing}
-If the source is 8-bit, then AX is divided by the operand. The
-quotient is stored in AL and the remainder in AH. If the source is
-16-bit, then DX:AX is divided by the operand. The quotient is stored
-into AX and remainder into DX. If the source is 32-bit, then
-EDX:EAX\index{register!EDX:EAX} is divided by the operand and the quotient is
-stored into EAX and the remainder into EDX. The {\code IDIV}
-\index{IDIV} instruction works the same way. There are no special
-{\code IDIV} instructions like the special {\code IMUL} ones. If the
-quotient is too big to fit into its register or the divisor is zero,
-the program is interrupted and terminates. A very common error is to
-forget to initialize DX or EDX before division.
+Se a fonte é 8-bit, então AX será dividido pelo operando. O
+quociente é alocado em AL e o resto em AH. Caso a fonte seja 
+16-bit, então DX:AX é dividido pelo operando. O quociente é alocado
+em AX e o resto em DX. Se a fonte é 32-bit, então
+EDX:EAX\index{register!EDX:EAX} é dividido pelo operando e o quociente é
+alocado para EAX e o resto para EDX. A instrução {\code IDIV}
+\index{IDIV} funciona de modo similar. Não existe instruções especiais de
+{\code IDIV} como as específicas de {\code IMUL}. Caso o quociente
+seja grande demais para caber em seu registrador ou o divisor é zero,
+o programa é interrompido e termina. Um erro comum é esquecer
+de iniciar DX ou EDX antes da divisão.
 \index{integer!division|)}
 
-The {\code NEG} \index{NEG} instruction negates its single operand by computing
-its two's complement. Its operand may be any 8-bit, 16-bit, or 32-bit
-register or memory location.
+A instrução {\code NEG} \index{NEG} nega seu operando calculando seu
+complemento para dois. Seu operando pode ser qualquer registrador de 8-bit, 16-bit, ou 32-bit
+ou lugar na memória.
 
-\subsection{Example program}
+\subsection{Programa de exemplo}
 \index{math.asm|(}
 \begin{AsmCodeListing}[label=math.asm]
 %include "asm_io.inc"
 segment .data         ; Output strings
-prompt          db    "Enter a number: ", 0
-square_msg      db    "Square of input is ", 0
-cube_msg        db    "Cube of input is ", 0
-cube25_msg      db    "Cube of input times 25 is ", 0
-quot_msg        db    "Quotient of cube/100 is ", 0
-rem_msg         db    "Remainder of cube/100 is ", 0
-neg_msg         db    "The negation of the remainder is ", 0
+prompt          db    "Digite um número: ", 0
+square_msg      db    "O quadro do número é ", 0
+cube_msg        db    "O cubo do número é ", 0
+cube25_msg      db    "O cubo do número vezes 25 é ", 0
+quot_msg        db    "Quociente do cubo/100 é ", 0
+rem_msg         db    "Resto do cube/100 é ", 0
+neg_msg         db    "A negação do resto é ", 0
 
 segment .bss
 input   resd 1
@@ -457,7 +457,7 @@ input   resd 1
 segment .text
         global  _asm_main
 _asm_main:
-        enter   0,0               ; setup routine
+        enter   0,0               ; rotina inicial
 	pusha
 
         mov     eax, prompt
@@ -467,7 +467,7 @@ _asm_main:
         mov     [input], eax
 
         imul    eax               ; edx:eax = eax * eax
-        mov     ebx, eax          ; save answer in ebx
+        mov     ebx, eax          ; salvar resposta em ebx
         mov     eax, square_msg
         call    print_string
         mov     eax, ebx
@@ -490,10 +490,10 @@ _asm_main:
         call    print_nl
 
         mov     eax, ebx
-        cdq                       ; initialize edx by sign extension
-        mov     ecx, 100          ; can't divide by immediate value
+        cdq                       ; inicia edx com a extenção de sinal
+        mov     ecx, 100          ; não pode dividir pelo valor imediato
         idiv    ecx               ; edx:eax / ecx
-        mov     ecx, eax          ; save quotient into ecx
+        mov     ecx, eax          ; salvar quociente em ecx
         mov     eax, quot_msg
         call    print_string
         mov     eax, ecx
@@ -505,7 +505,7 @@ _asm_main:
         call    print_int
         call    print_nl
         
-        neg     edx               ; negate the remainder
+        neg     edx               ; negar o resto
         mov     eax, neg_msg
         call    print_string
         mov     eax, edx
@@ -513,170 +513,170 @@ _asm_main:
         call    print_nl
 
         popa
-        mov     eax, 0            ; return back to C
+        mov     eax, 0            ; retorne a C
         leave                     
         ret
 \end{AsmCodeListing}
 \index{math.asm|)}
 
-\subsection{Extended precision arithmetic \label{sec:ExtPrecArith} \index{integer!extended precision|(}}}
+\subsection{Aritmética de precisão estendida \label{sec:ExtPrecArith} \index{integer!extended precision|(}}}
 
-Assembly language also provides instructions that allow one to perform
-addition and subtraction of numbers larger than double words. These
-instructions use the carry flag. As stated above, both the {\code ADD}
-\index{ADD} and {\code SUB} \index{SUB} instructions modify the carry
-flag if a carry or borrow are generated, respectively. This
-information stored in the carry flag can be used to add or subtract
-large numbers by breaking up the operation into smaller double word
-(or smaller) pieces.
+A linguagem Assembly também fornece instruções que permitem efetuar
+adição e subtração de números maiores do que palavras dupla. Estas
+instruções utilizam a bandeira carry. Como dito acima, ambas instruções {\code ADD}
+\index{ADD} e {\code SUB} \index{SUB} modificam a bandeira carry
+se um carry ou empréstimo são gerados, respectivamente. Essa
+informação alocada na bandeira flag pode ser usada para adicionar ou subtrair
+números maiores quebrando a operação em partes de palavras duplas
+ou, simplesmente, em partes menores.
 
-The {\code ADC} \index{ADC} and {\code SBB} \index{SBB} instructions
-use this information in the carry flag. The {\code ADC} instruction
-performs the following operation:
+As instruções {\code ADC} \index{ADC} e {\code SBB} \index{SBB} 
+utilizam essa informação na bandeira carry. A instrução {\code ADC} 
+efetua a seguinte operação:
 \begin{center}
-{\code \emph{operand1} = \emph{operand1} + carry flag + \emph{operand2} }
+{\code \emph{operand1} = \emph{operand1} + bandeira carry + \emph{operand2} }
 \end{center}
-The {\code SBB} instruction performs:
+A instrução {\code SBB} efetua:
 \begin{center}
-{\code \emph{operand1} = \emph{operand1} - carry flag - \emph{operand2} }
+{\code \emph{operand1} = \emph{operand1} - bandeira carry - \emph{operand2} }
 \end{center}
-How are these used? Consider the sum of 64-bit integers in
-EDX:EAX\index{register!EDX:EAX} and EBX:ECX. The following code would store the
-sum in EDX:EAX:
+Como estas são utilizadas? Considere a soma de inteiros de 64-bit em
+EDX:EAX\index{register!EDX:EAX} e EBX:ECX. O código a seguir poderia alocar
+a soma em EDX:EAX:
 \begin{AsmCodeListing}[frame=none]
-      add    eax, ecx       ; add lower 32-bits
-      adc    edx, ebx       ; add upper 32-bits and carry from previous sum
+      add    eax, ecx       ; soma os 32-bits inferiores
+      adc    edx, ebx       ; soma os 32-bits superiores e o carry da soma anterior
 \end{AsmCodeListing}
-Subtraction is very similar. The following code subtracts EBX:ECX from 
+A subtração é bem similar. O seguinte código subtrai EBX:ECX de 
 EDX:EAX:
 \begin{AsmCodeListing}[frame=none]
-      sub    eax, ecx       ; subtract lower 32-bits
-      sbb    edx, ebx       ; subtract upper 32-bits and borrow
+      sub    eax, ecx       ; subtrai os 32-bits inferiores
+      sbb    edx, ebx       ; subtrai os 32-bits superiores e o empréstimo
 \end{AsmCodeListing}
 
-For \emph{really} large numbers, a loop could be used (see 
-Section~\ref{sec:control}). For a sum loop, it would be convenient to use
-{\code ADC} instruction for every iteration (instead of all but the first
-iteration). This can be done by using the {\code CLC} \index{CLC} (CLear Carry)
-instruction right before the loop starts to initialize the carry flag to 0.
-If the carry flag is 0, there is no difference between the {\code ADD} and
-{\code ADC} instructions. The same idea can be used for subtraction, too.
+Para número \emph{realmente} maiores, um ciclo pode ser utilizado (veja 
+Section~\ref{sec:control}). Para um ciclo de soma, seria conviniente usar a
+instrução {\code ADC} para cada interação (ao invés de todas menos a primeira 
+interação). Isso pode ser feito utilizando a instrução {\code CLC} \index{CLC} (CLear Carry)
+logo antes do ciclo começar a inicializar a bandeira flag a 0.
+Se a bandeira carry flag for 0, não há diferença entre as instruções {\code ADD} e
+{\code ADC}. A mesma ideia pode ser usada para subtração, também.
 \index{integer!extended precision|)}
 \index{two's complement!arithmetic|)}
 
-\section{Control Structures}
+\section{Estruturas de Controle}
 \label{sec:control}
-High level languages provide high level control structures (\emph{e.g.}, the
-\emph{if} and \emph{while} statements) that control the thread of execution.
-Assembly language does not provide such complex control structures. It instead
-uses the infamous \emph{goto} and used inappropriately can result in
-spaghetti code! However, it \emph{is} possible to write structured assembly
-language programs. The basic procedure is to design the program logic using
-the familiar high level control structures and translate the design into
-the appropriate assembly language (much like a compiler would do).
+Linguagens de alto nível fornecem controles de estrutura de alto nível (\emph{i.e.}, as
+instruções \emph{if} e \emph{while}) que controlam o fio de execuções.
+A linguagem Assembly não fornece tais controles de estruturas complexos. Ao invés, ela
+utiliza a infame \emph{goto} e se usada de forma inapropriada pode resultar em
+código spaghetti! Entretando, \emph{é} possível escrever códigos estruturados
+na linguagem assembly. O procedimento básico é desenhar a lógica do programa utilizando
+as estruturas de controle de alto nível familiares e traduzir o desenho para
+a linguagem de assembly apropriada (similar ao que um compilador faria).
 
-\subsection{Comparisons \index{integer!comparisons|(} \index{CMP|(}}
+\subsection{Comparações \index{integer!comparisons|(} \index{CMP|(}}
 %TODO: Make a table of all the FLAG bits
 
 \index{register!FLAGS|(}
-Control structures decide what to do based on comparisons of data. In
-assembly, the result of a comparison is stored in the FLAGS register
-to be used later. The 80x86 provides the {\code CMP} instruction to
-perform comparisons.  The FLAGS register is set based on the
-difference of the two operands of the {\code CMP} instruction. The
-operands are subtracted and the FLAGS are set based on the result, but
-the result is \emph{not} stored anywhere. If you need the result use
-the SUB instead of the {\code CMP} instruction.
+Estruturas de controle decidem o que vão fazer baseado em comparação de dados. Em
+assembly, o resultado de uma comparação é alocado nos registradores FLAGS 
+para serem usados posteriormente. O 80x86 fornece a instrução {\code CMP} para
+efetuar as comparações. O registrador FLAGS é baseado na
+diferença entre dois operandos da instrução {\code CMP}. Os
+operandos são subtraídos e o FLAGS é definido com base no resultado, mas
+o resultado \emph{não} é alocado em lugar algum. Se você necessita do resultado, utilize
+a SUB ao invés da instrução {\code CMP}.
 
 \index{integer!unsigned|(}
-For unsigned integers, there are two flags (bits in the FLAGS
-register) that are important: the zero (ZF) \index{register!FLAGS!ZF} and carry (CF) 
-\index{register!FLAGS!CF} flags. The
-zero flag is set (1) if the resulting difference would be zero. The
-carry flag is used as a borrow flag for subtraction. Consider a
-comparison like:
+Para inteiros sem sinal, existem duas bandeiras (bits no registrador 
+FLAGS) que são importantes: zero (ZF) \index{register!FLAGS!ZF} e carry (CF) 
+\index{register!FLAGS!CF}. A bandeira
+zero é definida (1) se a diferença resultante for zero. A bandeira
+carry é utilizada como bandeira de empréstimo para a subtração. Considere a
+comparação como:
 \begin{AsmCodeListing}[frame=none, numbers=none]
       cmp    vleft, vright
 \end{AsmCodeListing}
-The difference of {\code vleft~-~vright} is computed and the flags are
-set accordingly. If the difference of the of {\code CMP} is zero, {\code 
-vleft~=~vright}, then ZF is set (\emph{i.e.} 1) and the CF is unset
-(\emph{i.e.} 0). If {\code vleft~>~vright}, then ZF is unset and CF
-is unset (no borrow). If {\code vleft~<~vright}, then ZF is unset and
-CF is set (borrow).
+A diferença de {\code vleft~-~vright} é calculada e as bandeiras são
+definidas de acordo. Se a diferença de {\code CMP} é zero, {\code 
+vleft~=~vright}, então a ZF é definida (\emph{i.e.} 1) e a CF é não definida
+(\emph{i.e.} 0). Se {\code vleft~>~vright}, então ZF não é definida e CF
+não é definida (não há empréstimo). Caso {\code vleft~<~vright}, então ZF não é definida e
+CF é definida (empréstimo).
 \index{integer!unsigned|)}
 
 \index{integer!signed|(} 
-For signed integers, there are three flags
-that are important: the zero \index{register!FLAGS!ZF} (ZF) flag, the
-overflow \index{register!FLAGS!OF}(OF) flag and the sign
-\index{register!FLAGS!SF} (SF) flag. \MarginNote{Why does SF~=~OF if
-{\code vleft~>~vright}? If there is no overflow, then the difference
-will have the correct value and must be non-negative. Thus,
-SF~=~OF~=~0. However, if there is an overflow, the difference will not
-have the correct value (and in fact will be negative). Thus,
-SF~=~OF~=~1.}The overflow flag is set if the result of an operation
-overflows (or underflows). The sign flag is set if the result of an
-operation is negative. If {\code vleft~=~vright}, the ZF is set (just
-as for unsigned integers). If {\code vleft~>~vright}, ZF is unset and
-SF~=~OF.  If {\code vleft~<~vright}, ZF is unset and SF~$\neq$~OF.
+Para inteiros com sinal, existem três bandeiras
+que são importantes: zero \index{register!FLAGS!ZF} (ZF),
+overflow \index{register!FLAGS!OF}(OF) e a bandeira sign
+\index{register!FLAGS!SF} (SF). \MarginNote{Por que fazer SF~=~OF se
+{\code vleft~>~vright}? Se não tiver nenhum overflow, então a diferença
+terpa i valor correto e deverá ser não-negativa. Assim,
+SF~=~OF~=~0. Entretando, se houver um overflow, a diferença não
+terá o valor correto (e será, na verdade, negativa). Logo,
+SF~=~OF~=~1.}A bandeira overflow é definida se o resultado da operação
+transbordar (ou underflows). A bandeira sign é definida caso o resultado de uma
+operação é negativo. Se {\code vleft~=~vright}, a ZF é definida (assim
+como para inteiros sem sinal). Se {\code vleft~>~vright}, ZF não é definida e
+SF~=~OF.  Se {\code vleft~<~vright}, ZF não é definida e SF~$\neq$~OF.
 \index{integer!signed|)}
 
-Do not forget that other instructions can also change the FLAGS
-register, not just {\code CMP}.
+Não esqueça que outras instruções também podem mudar o registrador FLAGS, 
+não apenas a {\code CMP}.
 \index{CMP|)}
 \index{integer!comparisons|)}
 \index{register!FLAGS|)}
 \index{integer|)}
 
-\subsection{Branch instructions}
+\subsection{Instruções de ramificação}
 
-Branch instructions can transfer execution to arbitrary points of a program.
-In other words, they act like a \emph{goto}. There are two types of branches:
-unconditional and conditional. An unconditional branch is just like a goto,
-it always makes the branch. A conditional branch may or may not make the
-branch depending on the flags in the FLAGS register. If a conditional branch
-does not make the branch, control passes to the next instruction.
+Instruções de ramificação podem transferir a execução para pontos arbitrários de um programa.
+Em outras palavras, podem agir como a \emph{goto}. Existem dois tipos de ramificação:
+incondicional e condicional. Uma ramificação incondicional é como a goto,
+sempre realiza a ramificação. Uma ramificação condicional pode ou não fazer a
+ramificação a depender das bandeiras no registrador FLAGS. Caso a ramificação condicional 
+não fizer a ramificação, o controle passa para a próxima instrução.
 
 \index{JMP|(}
-The {\code JMP} (short for \emph{jump}) instruction makes
-unconditional branches. Its single argument is usually a \emph{code
-label} to the instruction to branch to. The assembler or linker will
-replace the label with correct address of the instruction. This is
-another one of the tedious operations that the assembler does to make
-the programmer's life easier. It is important to realize that the
-statement immediately after the {\code JMP} instruction will never be
-executed unless another instruction branches to it!
+A instrução {\code JMP} (short for \emph{jump}) faz
+ramificações incondicionais. Seu argumento normalmente é uma \emph{etiqueta
+de código} da instrução a qual deve ramificar. O assembler ou linker irá
+substituir a etiqueta com o endereço correto da instrução. Esta é mais uma
+operação tediosa que o assembler faz para tornar a
+vida do programador mais fácil. É importante perceber que a instrução
+logo depois da instrução {\code JMP} nunca será executada
+a menos que outras instrução ramifique em direção a ela!
 
-There are several variations of the jump instruction:
+Existem várias variações da instrução jump:
 \begin{description}
 
-\item[SHORT] This jump is very limited in range. It can only move up or
-down 128 bytes in memory. The advantage of this type is that it uses less
-memory than the others. It uses a single signed byte to store the 
-\emph{displacement} of the jump. The displacement is how many bytes to move 
-ahead or behind. (The displacement is added to EIP). To specify a
-short jump, use the {\code SHORT} keyword immediately before the label
-in the {\code JMP} instruction.
+\item[SHORT] Este salto é bem limitado em questão de intervalo. Ele pode apenas mover 128 bytes para cima
+ou para baixo na memória. A vantagem desse tipo é utilizar menos
+memória do que os outros. Ele usa um único byte com sinal para alocar o 
+\emph{deslocamento} do salto. O deslocamento é quanto bytes se move para cima 
+ou para trás. (O deslocamento é adicionado a EIP). Para especificar um salto
+short, use a palavra-chave {\code SHORT} exatamente antes da etiqueta
+na instrução {\code JMP}.
 
-\item[NEAR] This jump is the default type for both unconditional and 
-conditional branches, it can be used to jump to any location in a
-segment. Actually, the 80386 supports two types of near jumps.  One
-uses two bytes for the displacement. This allows one to move up or
-down roughly 32,000 bytes. The other type uses four bytes for the
-displacement, which of course allows one to move to any location in
-the code segment. The four byte type is the default in 386 protected
-mode. The two byte type can be specified by putting the {\code WORD}
-keyword before the label in the {\code JMP} instruction.
+\item[NEAR] Este salto é o tipo padrão tanto para ramificações incondicionais quanto 
+para condicionais, ele pode ser utitlizado para pular para qualquer lugar no
+seguimento. Na verdade, 80386 suporta dois tipos de salto near. Um
+usa dois bytes para o deslocamento. Isso permite mover para cima ou
+para baixo exatos 32,000 bytes. O outro tipo usa quatro bytes para o
+deslocamento, o que claramento permite se mover para cima ou para baixo a qualquer lugar no 
+seguimento de código. O tipo de quatro byte é o padrão no modo protegido de 386. 
+O tipo dois byte pode ser especificado colocando a palavra-chave {\code WORD}
+antes da etiqueta na instrução {\code JMP}.
 
-\item[FAR] This jump allows control to move to another code segment. This is
-a very rare thing to do in 386 protected mode.
+\item[FAR] Este salto permite controle para mover a outro seguimento de código. Isso é algo
+raro de se fazer no modo protegido 386.
 \end{description}
 
-Valid code labels follow the same rules as data labels. Code labels
-are defined by placing them in the code segment in front of the statement
-they label. A colon is placed at the end of the label at its point of
-definition. The colon is \emph{not} part of the name.
+As etiquetas de código válidas seguem as mesmas regras das etiquetas de dado. Etiquetas de código
+são definidas are defined colocando-as no seguimento de código na frente da instrução que
+elas rotulam. Um dois pontos é posto ao final da etiqueta no ponto de definição. 
+Os dois pontos \emph{não} são parte do nome.
 \index{JMP|)}
 
 \index{conditional branch|(}
@@ -684,16 +684,16 @@ definition. The colon is \emph{not} part of the name.
 \center
 \begin{tabular}{|ll|}
 \hline
-JZ  & branches only if ZF is set \\
-JNZ & branches only if ZF is unset \\
-JO  & branches only if OF is set \\
-JNO & branches only if OF is unset \\
-JS  & branches only if SF is set \\
-JNS & branches only if SF is unset \\
-JC  & branches only if CF is set \\
-JNC & branches only if CF is unset \\
-JP  & branches only if PF is set \\
-JNP & branches only if PF is unset \\
+JZ  & salta somente se ZF é definida \\
+JNZ & salta somente se ZF não é definida \\
+JO  & salta somente se OF é definida \\
+JNO & salta somente se OF não é definida \\
+JS  & salta somente se SF é definida \\
+JNS & salta somente se SF não é definida \\
+JC  & salta somente se CF é definida \\
+JNC & salta somente se CF não é definida \\
+JP  & salta somente se PF é definida \\
+JNP & salta somente se PF não é definida \\
 \hline
 \end{tabular}
 \caption{Simple Conditional Branches \label{tab:SimpBran} \index{JZ} \index{JNZ}
@@ -701,50 +701,50 @@ JNP & branches only if PF is unset \\
         \index{JP} \index{JNP}}
 \end{table}
 
-There are many different conditional branch instructions. They also
-take a code label as their single operand. The simplest ones just look
-at a single flag in the FLAGS register to determine whether to branch
-or not.  See Table~\ref{tab:SimpBran} for a list of these
-instructions. (PF is the \emph{parity flag} \index{register!FLAGS!PF}
-which indicates the odd or evenness of the number of bits set in the
-lower 8-bits of the result.)
+Há muitas instruções de ramificação condicional diferentes. Elas também
+tomam uma etiqueta de código como seu único operando. As mais simples olham apenas
+para uma bandeira no registrador FLAGS para determinar se saltam ou
+não. Veja Table~\ref{tab:SimpBran} para uma listas destas
+instruções. (PF é a \emph{bandeira parity} \index{register!FLAGS!PF}
+que indica se o número de bits definidos nos 8-bits inferiores do resultado
+é par ou ímpar.)
 
-The following pseudo-code:
+O seguinte pseudo-código:
 \begin{Verbatim}
 if ( EAX == 0 )
   EBX = 1;
 else
   EBX = 2;
 \end{Verbatim}
-could be written in assembly as:
+poderia ser escrito em assembly como:
 \begin{AsmCodeListing}[frame=none]
-      cmp    eax, 0            ; set flags (ZF set if eax - 0 = 0)
-      jz     thenblock         ; if ZF is set branch to thenblock
-      mov    ebx, 2            ; ELSE part of IF
-      jmp    next              ; jump over THEN part of IF
+      cmp    eax, 0            ; define bandeiras (ZF definida caso eax - 0 = 0)
+      jz     thenblock         ; se ZF é definida então salta para thenblock
+      mov    ebx, 2            ; ELSE parte de IF
+      jmp    next              ; salta sobre a parte de THEN do IF
 thenblock:
-      mov    ebx, 1            ; THEN part of IF
+      mov    ebx, 1            ; THEN parte de IF
 next:
 \end{AsmCodeListing}
 
-Other comparisons are not so easy using the conditional branches in 
-Table~\ref{tab:SimpBran}. To illustrate, consider the following pseudo-code:
+Outras comparações não são tão simples utilizando ramificações condicionais 
+Table~\ref{tab:SimpBran}. Para demonstrar, considere o seguinte pseudo-código:
 \begin{Verbatim}
 if ( EAX >= 5 )
   EBX = 1;
 else
   EBX = 2;
 \end{Verbatim}
-If EAX is greater than or equal to five, the ZF may be set or unset and SF
-will equal OF. Here is assembly code that tests for these conditions 
-(assuming that EAX is signed):
+Se EAX for maior ou igual a cinco, a ZF pode ou não ser definida e SF
+será igual a OF. Veja agora o código em assembly que testa estas condicionais 
+(assumindo que EAX é com sinal):
 \begin{AsmCodeListing}[frame=none]
       cmp    eax, 5
-      js     signon            ; goto signon if SF = 1
-      jo     elseblock         ; goto elseblock if OF = 1 and SF = 0
-      jmp    thenblock         ; goto thenblock if SF = 0 and OF = 0
+      js     signon            ; goto signon se SF = 1
+      jo     elseblock         ; goto elseblock se OF = 1 e SF = 0
+      jmp    thenblock         ; goto thenblock se SF = 0 e OF = 0
 signon:
-      jo     thenblock         ; goto thenblock if SF = 1 and OF = 1
+      jo     thenblock         ; goto thenblock se SF = 1 e OF = 1
 elseblock:
       mov    ebx, 2
       jmp    next
@@ -757,36 +757,36 @@ next:
 \center
 \begin{tabular}{|ll|ll|}
 \hline
-\multicolumn{2}{|c|}{\textbf{Signed}} & \multicolumn{2}{c|}{\textbf{Unsigned}} \\
+\multicolumn{2}{|c|}{\textbf{Com sinal}} & \multicolumn{2}{c|}{\textbf{Sem sinal}} \\
 \hline
-JE & branches if {\code vleft = vright} & JE & branches if {\code vleft = vright} \\
-JNE & branches if {\code vleft $\neq$ vright} & JNE & branches if {\code vleft $\neq$ vright} \\
-JL, JNGE & branches if {\code vleft < vright} & JB, JNAE & branches if {\code vleft < vright} \\
-JLE, JNG & branches if {\code vleft $\leq$ vright} & JBE, JNA & branches if {\code vleft $\leq$ vright} \\
-JG, JNLE & branches if {\code vleft > vright} & JA, JNBE & branches if {\code vleft > vright} \\
-JGE, JNL & branches if {\code vleft $\geq$ vright} & JAE, JNB & branches if {\code vleft $\geq$ vright} \\
+JE & salta se {\code vleft = vright} & JE & salta se {\code vleft = vright} \\
+JNE & salta se {\code vleft $\neq$ vright} & JNE & salta se {\code vleft $\neq$ vright} \\
+JL, JNGE & salta se {\code vleft < vright} & JB, JNAE & salta se {\code vleft < vright} \\
+JLE, JNG & salta se {\code vleft $\leq$ vright} & JBE, JNA & salta se {\code vleft $\leq$ vright} \\
+JG, JNLE & salta se {\code vleft > vright} & JA, JNBE & salta se {\code vleft > vright} \\
+JGE, JNL & salta se {\code vleft $\geq$ vright} & JAE, JNB & salta se {\code vleft $\geq$ vright} \\
 \hline
 \end{tabular}
-\caption{Signed and Unsigned Comparison Instructions \label{tab:CompBran} \index{JE} \index{JNE}
+\caption{Instruções de Comparação Com Sinal e Sem Sinal \label{tab:CompBran} \index{JE} \index{JNE}
          \index{JL} \index{JNGE} \index{JLE} \index{JNG} \index{JG} \index{JNLE} \index{JGE}
          \index{JNL}}
 \end{table}
 
-The above code is very awkward. Fortunately, the 80x86 provides additional
-branch instructions to make these type of tests \emph{much} easier. There
-are signed and unsigned versions of each. Table~\ref{tab:CompBran} shows
-these instructions. The equal and not equal branches (JE and JNE) are the
-same for both signed and unsigned integers. (In fact, JE and JNE are really
-identical to JZ and JNZ, respectively.) Each of the other branch 
-instructions have two synonyms. For example, look at JL (jump less than) and
-JNGE (jump not greater than or equal to). These are the same instruction
-because:
+O código a cima é bem estranho. Felizmente, o 80x86 fornece instruções de
+ramificação adicionais a fim de tornar estes tipos de testes \emph{muito} mais fáceis. Existem
+versões com e sem sinal de cada uma. Tabela~\ref{tab:CompBran} mostra
+estas instruções. Os saltos igual e não-igual (JE e JNE) são 
+os mesmo para inteiros com e sem sinal. (Na verdade, JE e JNE são exatamente
+idênticos a JZ e JNZ, respectivamente.) Cada uma das outras instruções de 
+ramificação tem dois sinônimos. Por exemplo, observe JL (jump less than) e
+JNGE (jump not greater than or equal to). Estas são instruções similares
+pois:
 \[ x < y \Longrightarrow \mathbf{not}( x \geq y ) \]
-The unsigned branches use A for \emph{above} and B for \emph{below} instead of
-L and G.
+A ramificação sem sinal utiliza A para \emph{acima} e B para \emph{abaixo} ao invés de
+L e G.
 
-Using these new branch instructions, the pseudo-code above can be translated
-to assembly much easier.
+Utilizando estas instruções de salto, o pseudo-código acima pode ser facilmente traduzido
+para assembly.
 \begin{AsmCodeListing}[frame=none]
       cmp    eax, 5
       jge    thenblock
@@ -798,33 +798,33 @@ next:
 \end{AsmCodeListing}
 \index{conditional branch|)}
 
-\subsection{The loop instructions}
+\subsection{As Instruções de Ciclo (loop)}
 
-The 80x86 provides several instructions designed to implement 
-\emph{for}-like loops. Each of these instructions takes a code label
-as its single operand.
+O 80x86 oferece diversas instruções desenhadas para implementar 
+ciclos como os de \emph{for}. Cada uma destas instruções leva uma etiqueta
+de código como seu operando.
 \begin{description}
 \item[LOOP] 
 \index{LOOP}
-Decrements ECX, if ECX $\neq$ 0, branches to label
+Decrementa ECX, se ECX $\neq$ 0, salta para etiqueta
 \item[LOOPE, LOOPZ]
 \index{LOOPE} \index{LOOPZ}
-Decrements ECX (FLAGS register is not modified), if
-                    ECX $\neq$ 0 and ZF = 1, branches
+Decrementa ECX (registrador FLAGS não é modificado), se
+                    ECX $\neq$ 0 e ZF = 1, salta
 \item[LOOPNE, LOOPNZ]
 \index{LOOPNE} \index{LOOPNZ}
-Decrements ECX (FLAGS unchanged), if ECX $\neq$ 0
-                      and ZF = 0, branches
+Decrementa ECX (FLAGS não modificado), se ECX $\neq$ 0
+                      e ZF = 0, salta
 \end{description}
 
-The last two loop instructions are useful for sequential search loops. The
-following pseudo-code:
+As últimas duas instruções de loop são úteis para loops de busca sequencial. O
+seguinte pseudo-código:
 \begin{lstlisting}[stepnumber=0]{}
 sum = 0;
 for( i=10; i >0; i-- )
   sum += i;
 \end{lstlisting}
-\noindent could be translated into assembly as:
+\noindent pode ser traduzido em assembly como:
 \begin{AsmCodeListing}[frame=none]
       mov    eax, 0          ; eax is sum
       mov    ecx, 10         ; ecx is i
@@ -833,124 +833,124 @@ loop_start:
       loop   loop_start
 \end{AsmCodeListing}
 
-\section{Translating Standard Control Structures}
+\section{Traduzindo Estruturas de Controle Padrão}
 
-This section looks at how the standard control structures of high level
-languages can be implemented in assembly language.
+Esta seção mostra como as estruturas de controle de linguagens de alto nível
+podem ser implementadas na linguagem assembly.
 
 \subsection{If statements \index{if statment|(}}
-The following pseudo-code:
+O seguinte pseudo-código:
 \begin{lstlisting}[stepnumber=0]{}
 if ( condition )
   then_block;
 else
   else_block;
 \end{lstlisting}
-\noindent could be implemented as:
+\noindent pode ser implementado como:
 \begin{AsmCodeListing}[frame=none]
       ; code to set FLAGS
-      jxx    else_block    ; select xx so that branches if condition false
-      ; code for then block
+      jxx    else_block    ; seleciona xx tal que salta se a condição for falsa
+      ; código para bloco then
       jmp    endif
 else_block:
-      ; code for else block
+      ; código para bloco else
 endif:
 \end{AsmCodeListing}
 
-If there is no else, then the {\code else\_block} branch can be replaced by
-a branch to {\code endif}.
+Se não há nenhum else, então o salto do {\code else\_block} pode ser substituído por
+um salto para {\code endif}.
 \begin{AsmCodeListing}[frame=none]
-      ; code to set FLAGS
-      jxx    endif          ; select xx so that branches if condition false
-      ; code for then block
+      ; código para definir FLAGS
+      jxx    endif          ; seleciona xx tal que salta se a condição for falsa
+      ; código para bloco then
 endif:
 \end{AsmCodeListing}
 \index{if statment|)}
 
-\subsection{While loops \index{while loop|(}}
-The \emph{while} loop is a top tested loop:
+\subsection{Ciclos While \index{while loop|(}}
+O ciclo \emph{while} é testado no início do ciclo:
 \begin{lstlisting}[stepnumber=0]{}
-while( condition ) {
-  body of loop;
+while( condição ) {
+  corpo do ciclo;
 }
 \end{lstlisting}
-\noindent This could be translated into:
+\noindent Isto poderia ser traduzido em:
 \begin{AsmCodeListing}[frame=none]
 while:
-      ; code to set FLAGS based on condition
-      jxx    endwhile       ; select xx so that branches if false
-      ; body of loop
+      ; código para definir FLAGS baseado em condição
+      jxx    endwhile       ; seleciona xx tal que salta se falso
+      ; corpo do ciclo
       jmp    while
 endwhile:
 \end{AsmCodeListing}
 \index{while loop|)}
 
-\subsection{Do while loops \index{do while loop|(}}
-The \emph{do while} loop is a bottom tested loop:
+\subsection{Ciclos do-while \index{do while loop|(}}
+O ciclo \emph{do while} é testado ao final:
 \begin{lstlisting}[stepnumber=0]{}
 do {
-  body of loop;
-} while( condition );
+  corpo do ciclo;
+} while( condição );
 \end{lstlisting}
-\noindent This could be translated into:
+\noindent Isto poderia ser traduzido em:
 \begin{AsmCodeListing}[frame=none]
 do:
-      ; body of loop
-      ; code to set FLAGS based on condition
-      jxx    do          ; select xx so that branches if true
-\end{AsmCodeListing}
+      ; corpo do ciclo
+      ; código para definir FLAGS baseado em condição
+      jxx    do          ; seleciona xx tal que salta se verdadeiro
+      \end{AsmCodeListing}
 \index{do while loop|)}
 
 
 \begin{figure}[t]
 \begin{lstlisting}[frame=tlrb]{}
-  unsigned guess;   /* current guess for prime      */
-  unsigned factor;  /* possible factor of guess     */
-  unsigned limit;   /* find primes up to this value */
+  unsigned guess;   /* conjectura atual para primo   */
+  unsigned factor;  /* possível fator da conjectura     */
+  unsigned limit;   /* encontrar primos até este valor */
 
-  printf("Find primes up to: ");
+  printf("Encontre primos até: ");
   scanf("%u", &limit);
-  printf("2\n");    /* treat first two primes as  */
-  printf("3\n");    /* special case               */
-  guess = 5;        /* initial guess */
+  printf("2\n");    /* trate dois primeiros primos como  */
+  printf("3\n");    /* caso especial               */
+  guess = 5;        /* conjectura inicial */
   while ( guess <= limit ) {
-    /* look for a factor of guess */
+    /* procure um fator da conjectura */
     factor = 3;
     while ( factor*factor < guess &&
             guess % factor != 0 )
      factor += 2;
     if ( guess % factor != 0 )
       printf("%d\n", guess);
-    guess += 2;    /* only look at odd numbers */
+    guess += 2;    /* apenas procure por números ímpares */
   }
 \end{lstlisting}
 \caption{}\label{fig:primec}
 \end{figure}
 
-\section{Example: Finding Prime Numbers}
-This section looks at a program that finds prime numbers. Recall that
-prime numbers are evenly divisible by only 1 and themselves. There is
-no formula for doing this. The basic method this program uses is to
-find the factors of all odd numbers\footnote{2 is the only even prime
-number.} below a given limit. If no factor can be found for an odd
-number, it is prime.  Figure~\ref{fig:primec} shows the basic
-algorithm written in C.
+\section{Exemplo: Encontrando Números Primos}
+Esta seção mostra um programa que encontra números primos. Lembrando que
+números primos são divisíveis apenas por 1 e ele próprio. Não existe uma
+fórmula para fazer isso. O método basico utilizado por este programa é
+encontrar os fatores de todos números ímpares\footnote{2 é o único número par
+primo.} abaixo de um dado limite. Se não há fator a ser encontrado para um número
+ímpar, então ele é primo.  Figure~\ref{fig:primec} mostra o algoritmo
+base escrito em C.
 
-Here's the assembly version:
+Aqui a versão em assembly:
 \index{prime.asm|(}
 \begin{AsmCodeListing}[label=prime.asm]
 %include "asm_io.inc"
 segment .data
-Message         db      "Find primes up to: ", 0
+Message         db      "Encontre primos até: ", 0
 
 segment .bss
-Limit           resd    1               ; find primes up to this limit
-Guess           resd    1               ; the current guess for prime
+Limit           resd    1               ; encontre primos até este limite
+Guess           resd    1               ; a conjectura atual para o primo
 
 segment .text
         global  _asm_main
 _asm_main:
-        enter   0,0               ; setup routine
+        enter   0,0               ; rotina inicial
         pusha
 
         mov     eax, Message
@@ -969,13 +969,13 @@ _asm_main:
 while_limit:                         ; while ( Guess <= Limit )
         mov     eax,[Guess]
         cmp     eax, [Limit]
-        jnbe    end_while_limit      ; use jnbe since numbers are unsigned
+        jnbe    end_while_limit      ; use jnbe já que os números são sem sinal
 
         mov     ebx, 3               ; ebx is factor = 3;
 while_factor:
         mov     eax,ebx
         mul     eax                  ; edx:eax = eax*eax
-        jo      end_while_factor     ; if answer won't fit in eax alone
+        jo      end_while_factor     ; se a resposta não cabe em eax
         cmp     eax, [Guess]
         jnb     end_while_factor     ; if !(factor*factor < guess)
         mov     eax,[Guess]
@@ -997,7 +997,7 @@ end_if:
 end_while_limit:
 
         popa
-        mov     eax, 0            ; return back to C
+        mov     eax, 0            ; retorne C
         leave                     
         ret
 \end{AsmCodeListing}
