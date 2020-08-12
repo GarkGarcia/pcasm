@@ -251,105 +251,107 @@ linguas do mundo.
 
 \subsection{O CPU\index{CPU|(}}
 
-The Central Processing Unit (CPU) is the physical device that performs
-instructions. The instructions that CPUs perform are generally very
-simple. Instructions may require the data they act on to be in special
-storage locations in the CPU itself called
-\emph{registers}. \index{register} The CPU can access data in registers
-much faster than data in memory. However, the number of registers in a
-CPU is limited, so the programmer must take care to keep only
-currently used data in registers.
+A Unidade Central de Processamento (CPU) é o dispositivo físico que executa 
+instruções. As instruções que os CPUss executam são geralmente bastante 
+simples. Instruções podem requerir que os dados sobre os quais elas atuam 
+sejam armazenadas in locais de armazenamento especiais no próprio CPU, 
+chamados de \emph{registradores}. \index{register} O CPU pode acessar dados 
+nos registradores muito mais rapidamente do que dados na memória. No entanto, 
+o número de registradores em um CPU é limitado, de forma que o programador tem 
+de tomar o cuidado de manter apenas os dados em uso presente nos registradores.
 
-The instructions a type of CPU executes make up the CPU's
-\emph{machine language}. \index{machine language} Machine programs
-have a much more basic structure than higher-level languages. Machine
-language instructions are encoded as raw numbers, not in friendly text
-formats. A CPU must be able to decode an instruction's purpose very
-quickly to run efficiently. Machine language is designed with this
-goal in mind, not to be easily deciphered by humans. Programs written
-in other languages must be converted to the native machine language of
-the CPU to run on the computer. A \emph{compiler} \index{compiler} is
-a program that translates programs written in a programming language
-into the machine language of a particular computer architecture. In
-general, every type of CPU has its own unique machine language. This
-is one reason why programs written for a Mac can not run on an
-IBM-type PC.
+As instruções que um tipo de CPU executa constituem a \emph{linguagem de 
+máquina} do CPU. \index{machine language} Programas de máquina tem uma 
+estrutura muito mais básica que linguagens de alto nível. Instruções da 
+linguagem de máquina são codificados como números crus, e não em formatos de 
+texto amigáveis. Um CPU precisa ser capaz de decodificar o propósito de uma 
+instrução muito rapidamente o com eficiência. Linguagens de máquina são 
+projetadas com esse objetivo em mente, e não para que sejam facilmente 
+decifráveis por humanos. Programas escritos em outras linguagens tem de ser 
+convertidos para a linguagem de máquina nativa do CPU para serem executados 
+pelo computador. Um \emph{compilador} \index{compiler} é um programa que 
+traduz programas escritos em uma linguagem de programação para a linguagem de 
+máquina de uma arquitetura de computadores particular. No geral, todo tipo de 
+CPU tem sua própria lignaugem de máquina especifica. Essa é uma razão do por 
+quê programas escritos para um Mac não podem executados em um PC do tipo IBM.
 
-Computers use a \emph{clock} \index{clock} to synchronize the
-execution of the \MarginNote{\emph{GHz} stands for gigahertz or one
-billion cycles per second.  A 1.5 GHz CPU has 1.5 billion clock pulses
-per second.} instructions.  The clock pulses at a fixed frequency
-(known as the \emph{clock speed}). When you buy a 1.5 GHz computer,
-1.5 GHz is the frequency of this clock\footnote{Actually, clock pulses
-are used in many different components of a computer. The other
-components often use different clock speeds than the CPU.}. The clock
-does not keep track of minutes and seconds. It simply beats at a
-constant rate. The electronics of the CPU uses the beats to perform
-their operations correctly, like how the beats of a metronome help one
-play music at the correct rhythm.  The number of beats (or as they are
-usually called \emph{cycles}) an instruction requires depends on the
-CPU generation and model. The number of cycles depends on the
-instructions before it and other factors as well.
+Computadores usam um \emph{relógio} \index{clock} para sincronizar a execução 
+das \MarginNote{\emph{GHz} significa gigahertz ou um bilhão de ciclos por 
+segundo. Um CPU de 1.5 GHz tem 1.5 bilhões de pulsos de relógio por segundo.} 
+instruções. O relógio pulsa a uma frequência fixa (conhecida como a 
+\emph{velocidade do relógio}). Quando você compra um computador de 1.5 GHz, 
+1.5 GHz é a frequência de relógio\footnote{Na realidade, pulsos de relógio são 
+usados em diversos componentes distintos de um computador. Os outros 
+componentes frequêntemente usam uma velocidade de relógio diferente da do 
+CPU.}. O relógio não acompanha minutos ou segundos. Ele simplesmente pulsa a 
+uma taxa constante. Os eletrônicos do CPU usam os pulsos para realizar suas 
+operações corretamente, assim como o pulsos de um metrônomo ajudam um músico a 
+tocar no ritmo correto. O número de pulsos (ou, como são geralmente chamados, 
+\empg{ciclos}) que uma instrução requere depende da geração e do modelo do CPU.
+O número de ciclos depende da instrução que a precede e de outros fatores 
+também.
 
 
-\subsection{The 80x86 family of CPUs\index{CPU!80x86}}
+\subsection{A família 80x86 de CPUs\index{CPU!80x86}}
 
-IBM-type PC's contain a CPU from Intel's 80x86 family (or a clone of one).
-The CPU's in this family all have some common features including a base
-machine language. However, the more recent members greatly enhance the
-features.
+PCs do tipo IBM contêm um CPU da Familia 80x86 da Intel (ou um clone de um).
+Os CPUs nessa família tem todos alguns recursos comúm, incluindo uma linguagem 
+de máquina básica. No entanto, os membros mais recentes molhoram os recursos 
+imensamente.
+
 \begin{description}
 
-\item[8088,8086:] These CPU's from the programming standpoint are
-identical. They were the CPU's used in the earliest PC's. They provide
-several 16-bit registers: AX, BX, CX, DX, SI, DI, BP, SP, CS, DS, SS,
-ES, IP, FLAGS. They only support up to one megabyte of memory and only
-operate in \emph{real mode}.  In this mode, a program may access any
-memory address, even the memory of other programs! This makes
-debugging and security very difficult! Also, program memory has to be
-divided into \emph{segments}. Each segment can not be larger than
-64K.
+\item[8088,8086:] Esses CPUs são idênticos do ponto de vista da programação. 
+Eles foram os CPUs usados nos primeiros PCs. Eles provêm diversos registros de 
+16 bits: AX, BX, CX, DX, SI, DI, BP, SP, CS, DS, SS, ES, IP, FLAGS. Eles 
+supor apenas até um megabyte de memória e operam somento no \emph{modo real}. 
+Nesse modo, um programa pode acessar qualquer endereço de memória, até a 
+memória de outros programas! Isso torna a debugagem e a segurança muito 
+difíceis! Além disso, a memória de um programa tem de ser dividida em 
+\emph{segmentos}. Cada segmento não pode execeder 64K.
 
-\item[80286:] This CPU was used in AT class PC's. It adds some new
-instructions to the base machine language of the 8088/86.  However,
-its main new feature is \emph{16-bit protected mode}.  In this mode,
-it can access up to 16 megabytes and protect programs from accessing
-each other's memory. However, programs are still divided into
-segments that could not be bigger than 64K.
+\item[80286:] Esse CPU for usado nos PCs da classe AT. Ele adiciona algumas 
+novas instruções à linguagem de máquina básica dos 8088/86. No entanto, seu 
+principal novo recurso é o \emph{modo protegido de 16 bits}. Nesse modo, 
+ele pode acessor até 16 megabytes e proteger programas de acessar a memória de 
+uns aos outros. No entanto, programas ainda são divididos em segmentos que 
+não podem ser maiores que 64K.
 
-\item[80386:] This CPU greatly enhanced the 80286. First, it extends many
-of the registers to hold 32-bits (EAX, EBX, ECX, EDX, ESI, EDI, EBP, ESP,
-EIP) and adds two new 16-bit registers FS and GS. It also adds a new
-\emph{32-bit protected mode}. In this mode, it can access up to 4 gigabytes.
-Programs are again divided into segments, but now each segment can also be
-up to 4 gigabytes in size!
+\item[80386:] Esse CPU aprimorou imensamente o 80286. Primeiramente, ele 
+extende muito dos registradores para armazenar 32 bits (EAX, EBX, ECX, EDX, 
+ESI, EDI, EBP, ESP, EIP) e adiciona dois novos registradores de 16 bits, FS e 
+GS. Ele também um novo \emph{modo protegido de 32 bits}. Nesse modo, ele pode 
+acessar até 4 gigabytes. Programas são novamente dividos em setores, mas 
+agora cada segmento pode também ter até 4 gigabytes de tamanho!
 
-\item[80486/Pentium/Pentium Pro:] These members of the 80x86 family add
-very few new features. They mainly speed up the execution of the
-instructions.
+\item[80486/Pentium/Pentium Pro:] Esses membros da família 80x86 adicionam 
+algúns poucos novos recursos. Eles principalemnte aceleram a execução das 
+instruções.
 
-\item[Pentium MMX:] This processor adds the MMX (MultiMedia eXtensions)
-instructions to the Pentium. These instructions can speed up common graphics
-operations.
 
-\item[Pentium II:] This is the Pentium Pro processor with the MMX instructions
-added. (The Pentium III is essentially just a faster Pentium II.)
+\item[Pentium MMX:] Esse processador adiciona as instruções MMX (eXtenções de 
+MultiMedia) ao Pentium. Essas instruções podem acelerar operações gráficas 
+comúns.
+
+\item[Pentum II:] Esse é o processador Pentium Pro com as instruções MMX 
+adicionadas. (O Pentium III é essencialmente apenas um Pentium II mais rápido.)
 
 \end{description}
 \index{CPU|)}
 
-\subsection{8086 16-bit Registers\index{register|(}}
+\subsection{Registradores de 16 bit do 8086\index{register|(}}
 
-The original 8086 CPU provided four 16-bit general purpose registers:
-AX, BX, CX and DX. Each of these registers could be decomposed into
-two 8-bit registers. For example, the AX register could be decomposed
-into the AH and AL registers as Figure~\ref{fig:AX_reg} shows. The AH
-register contains the upper (or high) 8 bits of AX and AL contains the
-lower 8 bits of AX. Often AH and AL are used as independent one byte
-registers; however, it is important to realize that they are not
-independent of AX. Changing AX's value will change AH and AL and
-{\em vice versa}\/. The general purpose registers are used in many of
-the data movement and arithmetic instructions.
+O CPU 8086 original oferecia quatro registradores de 16 bits de propósito 
+geral: AX, BX, CX e DX. Cada um desses registradores poderia ser decomposto em 
+dois registradores de 8 bits. Por exemplo, o registrador AX poderia ser 
+decomposto nos registradores AH e AL como mostra a Figura~\ref{fig:AX_reg}. O 
+registrador AH contêm os 8 bits superiores (ou mais elevados) de AX  e AL 
+contêm os 8 bits inferiores de AX. Frequêntemente AH e AL são usados como 
+registradores idependentes de um byte; no entanto, é importante notar-se que 
+eles são idependentes de AX. Modificar-se o valor de AX irá modificar AH e AL 
+e {\em vice versa}\/. Os registradores de propósito geral são usados em muitos 
+das movimentações de dados e instruções aritmeticas.
+
 
 \begin{figure}
 \begin{center}
@@ -359,84 +361,90 @@ the data movement and arithmetic instructions.
 \multicolumn{1}{||c|}{AH} & \multicolumn{1}{c||}{AL} \\
 \hline
 \end{tabular}
-\caption{The AX register \label{fig:AX_reg} }
+\caption{O registrador AX \label{fig:AX_reg} }
 \end{center}
 \end{figure}
 
-There are two 16-bit index registers\index{register!index}: SI and
-DI. They are often used as pointers, but can be used for many of the
-same purposes as the general registers. However, they can not be
-decomposed into 8-bit registers.
+Existem dois registradores de índice de 16 bits\index{register!index}: SI e DI. 
+Eles são frequêntimente usados como ponteiros, mas podem ser usados para 
+muitos dos mesmos proprósitos que os registradores gerais. No entanto, eles 
+não podem ser decompostos em registradores de 8 bits.
 
-The 16-bit BP and SP registers are used to point to data in the
-machine language stack and are called the Base Pointer\index{register!base pointer} 
-and Stack Pointer\index{register!stack pointer}, respectively. These will be discussed later. 
+Os registradores de 16 bits BP e SP são usados para apontar-se para dados no 
+stack da linguagem de máquina e são chamados de Ponteiro da 
+Base\index{register!base pointer} e Ponteiro do 
+Stack\index{register!stack pointer}, respectivamente. Esses serão discutidos 
+posteriormente.
 
-The 16-bit CS, DS, SS and ES registers are \emph{segment
-registers}. \index{register!segment} They denote what memory is used
-for different parts of a program. CS stands for Code Segment, DS for
-Data Segment, SS for Stack Segment and ES for Extra Segment. ES is
-used as a temporary segment register. The details of these registers
-are in Sections~\ref{real_mode} and \ref{16prot_mode}.
+Os registradores de 16 bits CS, DS, SS e ES são \emph{registradores de 
+segmento}. \index{register!segment} Eles denotam qual parte da memória é usada 
+para diferentes partes do programa. CS significa Segmento de Código, DS 
+significa Segmento de Dados, SS significa Segmento do Stack e ES significa 
+Segmento Extra. O ES é usado como um registrados de segmento temporário. Os 
+detalhes sobre esse registradores se encontram nas Seções~\ref{real_mode} e 
+\ref{16prot_mode}.
 
-The Instruction Pointer (IP) \index{register!IP} register is used with
-the CS register to keep track of the address of the next instruction
-to be executed by the CPU. Normally, as an instruction is executed, IP
-is advanced to point to the next instruction in memory.
+O registrador Ponteiro de Instrução (IP) \index{register!IP} é usado com o CS 
+para acompanhar o endereço da próxima instrução a ser executada pelo CPU. 
+Normalmente, conforme uma instrução é executada, o IP é incrementado para 
+apontar para a próxima instrução na memória.
 
-The FLAGS \index{register!FLAGS} register stores important information
-about the results of a previous instruction. These results are stored
-as individual bits in the register. For example, the Z bit is 1 if the
-result of the previous instruction was zero or 0 if not zero. Not all
-instructions modify the bits in FLAGS, consult the table in the
-appendix to see how individual instructions affect the FLAGS register.
+O registrador FLAGS \index{register!FLAGS} armazena informações importantes 
+sobre os resultados de uma instrução prévia. Esses resultados são armazenados 
+como bits individuais no registrador. Por exemplo, o bit Z é 1 se o resultado 
+da instrução prévia foi zero ou 0 caso contrário. Nem todas as instruções 
+modificam os bits em FLAGS, consulte a tabela no apêndice para ver como 
+instruções individuais afetam o registrador FLAGS.
 
-\subsection{80386 32-bit registers\index{register!32-bit}}
+\subsection{Registradores de 32 bits do 80386\index{register!32-bit}}
 
-The 80386 and later processors have extended registers. For example, the
-16-bit AX register is extended to be 32-bits. To be backward compatible, AX
-still refers to the 16-bit register and EAX is used to refer to the extended
-32-bit register. AX is the lower 16-bits of EAX just as AL is the lower 8-bits
-of AX (and EAX). There is no way to access the upper 16-bits of EAX directly.
-The other extended registers are EBX, ECX, EDX, ESI and EDI. 
+O 80386 e processadores posteriores tem registradores extendidos. Por exemplo, 
+o registrador de 16 bits AX é extendido para 32 bits. Para ser compatível 
+com verções anteriores, AX ainda se refere ao registrador de 16 bits e EAX é 
+usado para referir-se para o registrador extendido de 32 bits. O AX consiste 
+nos 16 bits inferiores do EAX, assim como o AL consiste nos 8 bits inferiores 
+d AX (e do EAX). Não há nunhuma forma de acessar os 16 bits superiores de EAX 
+diretamente. Os outras registradores extendidos são EBX, ECX, EDX, ESI e EDI.
 
-Many of the other registers are extended as well. BP becomes
-EBP\index{register!base pointer}; SP becomes ESP\index{register!stack
-pointer}; FLAGS becomes EFLAGS\index{register!EFLAGS} and IP becomes
-EIP\index{register!EIP}. However, unlike the index and general purpose
-registers, in 32-bit protected mode (discussed below) only the
-extended versions of these registers are used.
+Muitos outros registrador são extendidos também. O BP se torna 
+EBP\index{register!base pointer}; o SP se torna ESP\index{register!stack 
+pointer}; o FLAGS se torna EFLAGS\index{register!EFLAGS} e IP se torna 
+EIP\index{register!EIP}. No entanto, ao contrário dos registradores de 
+índice e de propósito geral, no modo protegido de 32 bits (discutidos abaixo) 
+somente as verções extendidas desses registradores são usadas.
 
-The segment registers are still 16-bit in the 80386. There are also
-two new segment registers: FS and GS\index{register!segment}. Their
-names do not stand for anything. They are extra temporary segment
-registers (like ES).
+Os registradores de segmento ainda são de 16 bits no 80386. Há também dois 
+novos registradores de segmento: o FS e GS\index{register!segment}. Seus nomes 
+não significam nada. Eles são registradores de segmento temporários (assim 
+como o ES).
 
-One of definitions of the term \emph{word} \index{word} refers to the
-size of the data registers of the CPU. For the 80x86 family, the term
-is now a little confusing. In Table~\ref{tab:mem_units}, one sees that
-\emph{word} is defined to be 2 bytes (or 16 bits). It was given this
-meaning when the 8086 was first released. When the 80386 was
-developed, it was decided to leave the definition of \emph{word}
-unchanged, even though the register size changed.
+Uma das definições do termo \emph{word} \index{word} refere-se ao tamanho 
+dos registradores de dados do CPU. Para a família 80x86, o termo é agora um 
+pouco confuso. Na Tabela~\ref{teb:mem_units}, pode-se notar que \emph{word} é 
+definido ccomo 2 bytes (ou 16 bits). Tal segnificado foi atribuido ao termo 
+logo após o 8086 ser lançado. Quando o 80386 foi desenvolvido, foi decidido 
+não modificar-se a definição de \emph{word}, mesmo que o tamanho dos registros 
+tenhna mudado.
+
 \index{register|)}
 
-\subsection{Real Mode \label{real_mode} \index{real mode|(}}
+\subsection{Modo Real \label{real_mode} \index{real mode|(}}
 
-In \MarginNote{So where did the infamous DOS 640K limit come from? The BIOS 
-required some of the 1M for its code and for hardware devices like the video 
-screen.} real mode, memory is limited to only one megabyte ($2^{20}$ bytes). 
-Valid
-address range from (in hex) 00000 to FFFFF.\@  % \@ means end of sentence
-These addresses require a 20-bit number. Obviously, a 20-bit number will not
-fit into any of the 8086's 16-bit registers. Intel solved this problem, by
-using two 16-bit values to determine an address. The first 16-bit value is called
-the \emph{selector}. Selector values must be stored in segment registers. The
-second 16-bit value is called the \emph{offset}. The physical address 
-referenced by a 32-bit \emph{selector:offset} pair is computed by the formula
-\[ 16 * {\rm selector} + {\rm offset} \]
-Multiplying by 16 in hex is easy, just add a 0 to the right of the number. For
-example, the physical addresses referenced by 047C:0048 is given by:
+No \MarginNote{De onde vem o infame limite do DOS de 640K? O BIOS requere uma 
+parde dos 1M para seu código e para dispositivos de hardware como o monitor de 
+vídeo.} modo real, a memória é limitada a apenas um megabyte ($2^{20}$ bytes).
+Endereços válidos variam de 00000 a FFFFF (em hex).\@ % \@ means end of sentence
+Esses enereços querem um número de 20 bits. Obviamente, um número de 20 bits 
+não irá caber em nenhum dos registradres de 16 bits do 8086. A Intel resolveu 
+esse problema usando dois valores de 16 bits para determinar um endereço. O 
+primeiro valor de 16 bits é dito \emph{seletor}. Os valores de um seletor 
+devem ser armazenados em registros de segmentos. O segundo segundo valor de 
+16 bits é dito o \emph{offset}. O endereço físico ao qual se refere um par 
+\emph{seletor:offset} de 32 bits é computado pela formula
+\[ 16 * {\rm seletor} + {\rm offset} \]
+Multiplicar-se por 16 em hex é fácil, basta adicionar um 0 na extremidade 
+direita do número. Por exemplo, o endereço físico ao qual se refere 
+047C:0048 é dado por
 \begin{center}
 \begin{tabular}{r}
 047C0 \\
@@ -445,294 +453,297 @@ example, the physical addresses referenced by 047C:0048 is given by:
 04808 \\
 \end{tabular}
 \end{center}
-In effect, the selector value is a paragraph number
-(see Table~\ref{tab:mem_units}).
+Com efeito, um valor seletor é um número de parágrafo
+(veja a Tabela~\ref{tab:mem_units}).
 
-Real segmented addresses have disadvantages:
+Endereços realmente segmentados tem desvantagens:
 \begin{itemize}
-\item A single selector value can only reference 64K of memory (the
-upper limit of the 16-bit offset). What if a program has more than 64K
-of code? A single value in CS can not be used for the entire execution
-of the program.  The program must be split up into sections (called
-\emph{segments}\index{memory!segments}) less than 64K in size. When
-execution moves from one segment to another, the value of CS must be
-changed. Similar problems occur with large amounts of data and the DS
-register. This can be very awkward!
+\item Um valor único de seletor pode referenciar 64K de momória apenas (o 
+limite superior do offset de 16 bits). O quê acontece quanto um segmento tem 
+mais do que 64K de código? Não podemos usar um único valor de CS para toda a 
+execução do programa. O programa tem de ser dividido em seções (chamadas de 
+\emph{segmentos}\index{momory!segments}) menores do que 64K em tamanho. Quando 
+a execução passa de um segmento para o outro, o valor de CS tem de ser
+alterado. Problemas similares ocorrem com grandes quantidades de dados e o
+registrador DS. Isso pode ser bastante estranho!
 
-\item Each byte in memory does not have a unique segmented address. The 
-physical address 04808 can be referenced by 047C:0048, 047D:0038, 047E:0028
-or 047B:0058.\@ This can complicate the comparison of segmented addresses.
+\item Cada byte na memória não tem um único enderço segmentado. O endereço
+físico 04808 pode ser referenciado por 047C:0048, 047D:0038, 047E:0028 ou
+047B:0058.\@ Isso pode complicar a comparação de endereços segmentados.
 
 \end{itemize}
 \index{real mode|)}
 
-\subsection{16-bit Protected Mode \label{16prot_mode} \index{protected mode!16-bit|(}}
+\subsection{Modo Protegido de 16 bits \label{16prot_mode} \index{protected mode!16-bit|(}}
 
-In the 80286's 16-bit protected mode, selector values are interpreted
-completely differently than in real mode. In real mode, a selector
-value is a paragraph number of physical memory. In protected mode, a
-selector value is an \emph{index} into a \emph{descriptor table}. In
-both modes, programs are divided into
-segments\index{memory:segments}. In real mode, these segments are at
-fixed positions in physical memory and the selector value denotes the
-paragraph number of the beginning of the segment. In protected mode,
-the segments are not at fixed positions in physical memory. In fact,
-they do not have to be in memory at all!
+No modo protegido de 16 bits do 80286, valores de seletores são interpretados
+de maneira completamente diferente do modo real. No modo real, um valor de
+seletor é o número de parágrafo de memória física. No modo protegido, um valor
+de seletor é um \emph{indíce} em uma \emph{tabela de descritores}. Em ambos os 
+modos, programas são divididos em segmentos\index{momory:segments}. No modo
+real, esses segmentos estão situados em posições fixas na memória física e o
+valor de um seletor denota o número do parágrafo do inicio do segmento. No modo
+protegido, os segmentos não estão em posições fixas na memória física. Na
+realidade, eles não sequer tem de estar na memória!
 
-Protected mode uses a technique called \emph{virtual memory}
-\index{memory!virtual}. The basic idea of a virtual memory system is
-to only keep the data and code in memory that programs are currently
-using. Other data and code are stored temporarily on disk until they
-are needed again.  In 16-bit protected mode, segments are moved
-between memory and disk as needed. When a segment is returned to
-memory from disk, it is very likely that it will be put into a
-different area of memory that it was in before being moved to
-disk. All of this is done transparently by the operating system. The
-program does not have to be written differently for virtual memory to
-work.
+O modo protegido usa uma tecnica chamada \emph{memória
+virtual}\index{memory!virtual}. A ideia central da memória virtual é manter
+apenas os dados e o código na memória que os programas estão usando no momento.
+Outros dados e códigos são armazenados temporariamente no disco até que eles
+sejam necessarios novamente. No modo protegido de 16 bits, segmentos são
+movidos entre a memória e o disco conforme necessario. Quando um segmento é
+devolvido do disco para a memória, é bastante provável que ele seja colocado em
+uma área diferente da mómoria do que a que ele estava antes de ser transfirido
+para o disco. Tudo isso é feito de forma transparente pelo sistema operacional.
+O programa não precisa ser escrito de forma diferente para que a memória
+virtual funcione.
 
-In protected mode, each segment is assigned an entry in a descriptor table.
-This entry has all the information that the system needs to know about the
-segment. This information includes: is it currently in memory; if in memory,
-where is it; access permissions ({\em e.g.\/}, read-only). The index of the
-entry of the segment is the selector value that is stored in segment registers.
+No modo protegido, cada segmento é associado a uma entrada em uma tabela de
+descritores. Essa tabela armazena toda a informação que o sistema precisa saber
+sobre o segmento. Essa informação inclui: ele está ou não na memória; se está
+memória, onde está; permições de acesso ({\em ex.\/}, somente-leitura). O
+índice da entrada do segmento é o valor de seletor que é armazenado no
+registrados de segmento.
 
-One \MarginNote{One well-known PC columnist called the 286 CPU ``brain
-dead.''} big disadvantage of 16-bit protected mode is that offsets
-are still 16-bit quantities. As a consequence of this, segment sizes
-are still limited to at most 64K. This makes the use of large arrays
-problematic!
+Uma \MarginNote{Um renomado colunista de PCs chamou o CPU 286 de ``retardado''}
+grande desvantagem do modo protegido de 16 bits é o fato de que offsets ainda
+são quantidades de 16 bits. Consequentemente, o tamanho dos segmentos ainda é
+limitado a no máximo 64K. Isso torna o uso de grandes arrays problemático!
 \index{protected mode!16-bit|)}
 
-\subsection{32-bit Protected Mode\index{protected mode!32-bit|(}}
+\subsection{Modo Protegido de 32 bits\index{protected mode!32-bit|(}}
 
-The 80386 introduced 32-bit protected mode. There are two major differences
-between 386 32-bit and 286 16-bit protected modes:
+O 80386 introduziu o modo protegido de 32 bits. Há duas grandes diferenças
+entre os modos protegidos de 32 e 16 bits do 386 e do 286, respectivamente:
 \begin{enumerate}
 \item
 
-Offsets are expanded to be 32-bits. This allows an offset to range up
-to 4 billion. Thus, segments can have sizes up to 4 gigabytes.
+Offsets são extendidos para ter 32 bits. Isso permite a um offset alcançar
+valores de até 4 bilhões. Assim, os segmentos podem ter tamanhos de até 4
+gigabytes.
 
 \item
 
-Segments\index{memory!segments} can be divided into smaller 4K-sized
-units called \emph{pages}\index{memory!pages}. The virtual
-memory\index{memory!virtual} system works with pages now instead of
-segments. This means that only parts of segment may be in memory at
-any one time. In 286 16-bit mode, either the entire segment is in
-memory or none of it is. This is not practical with the larger
-segments that 32-bit mode allows.
+Segmentos\index{memory!segments} podem ser divididos em unidades de 4K ditas
+\emph{páginas}\index{memory!pages}. Os sistemas de memória 
+virtual\index{memory!virtual} agora utilizam páginas ao invés de segmentos.
+Isso significa que apenas parte de um segmento pode estar na memória em um dado
+momento. No modo que 16 bits do 286, ou todo o segmento está na memória ou
+nenhuma parte dele está. Isso não é prático para os segmentos de maior tamanho
+que o modo de 32 bits introduziu.
 
 \end{enumerate}
 
 \index{protected mode!32-bit|)}
 
-In Windows 3.x, \emph{standard mode} referred to 286 16-bit protected mode and
-\emph{enhanced mode} referred to 32-bit mode. Windows 9X, Windows NT/2000/XP, OS/2
-and Linux all run in paged 32-bit protected mode.
+No Windows 3.x, \emph{modo padrão} fazia referência ao modo protegido de 16
+bits do 286 e \emph{modo avançado} fazia referência ao modo que 32 bits.
+Windows 9X, Windows NT/2000/XP, OS/2 e Linux todos rodam no modo protegido de
+32 bits paginado.
 
-\subsection{Interrupts\index{interrupt}}
+\subsection{Interrupções\index{interrupt}}
 
-Sometimes the ordinary flow of a program must be interrupted to process events
-that require prompt response. The hardware of a computer provides a mechanism
-called \emph{interrupts} to handle these events. For example, when a mouse is
-moved, the mouse hardware interrupts the current program to handle the mouse
-movement (to move the mouse cursor, {\em etc.\/}) Interrupts cause control to
-be passed to an \emph{interrupt handler}. Interrupt handlers are routines that
-process the interrupt. Each type of interrupt is assigned an integer number.
-At the beginning of physical memory, a table of \emph{interrupt vectors}
-resides that contain the segmented addresses of the interrupt handlers. The
-number of interrupt is essentially an index into this table.
+Por vezes o fluxo natural de um programa tem de ser interrompido para que sejam
+processados eventos que requerem um resposta rápido. O hardware de um
+computador fornece um macanismo chamado \emph{interrupções} para tratar esses
+eventos. Por exemplo, quando o mouse é movido, o hardware do mouse interrompe o
+programa corrente para tratar o movimento do mouse (para mover o cursor do
+mouse, \{\em etc.\/}) Interrupções fazem com que o controle de execução seja
+transferido para um \emph{tratador de interrupção}. Tratadores de
+Interrupção são rotinas que processam a interrupção. Cada tipo de interrupção é
+associado a um número inteiro. No começo da memória física reside um tabela de
+\emph{vetores de interrupção} que contêm os endereços segmentados dos 
+tratadores de interrupção. O número de uma interrupção é assencialmente um
+índice nessa tabela.
 
-External interrupts are raised from outside the CPU. (The mouse is an
-example of this type.) Many I/O devices raise interrupts ({\em
-e.g.\/}, keyboard, timer, disk drives, CD-ROM and sound
-cards). Internal interrupts are raised from within the CPU, either
-from an error or the interrupt instruction. Error interrupts are also
-called \emph{traps}. Interrupts generated from the interrupt
-instruction are called \emph{software interrupts}. DOS uses these types of
-interrupts to implement its API (Application Programming Interface). More
-modern operating systems (such as Windows and UNIX) use a C based interface.
-\footnote{However, they may use a lower level interface at the kernel level.}
+Interrupções externas são disparadas de fora do CPU. (O mouse é um exemplo
+desse tipo.) Muitos dispositivos de I/O disparam interrupções ({\em e.g.\/},
+teclado, cronômetro, drives de disco, CD-ROM e placas de audio). Interrupções
+internas são disparadas de dentro do CPU, ou por um erro ou por uma instrução
+de interrupção. Interrupções de erro são também chamadas de \emph{traps}.
+Interrupções geradas por instruções de interrupção são chamadas de
+\emph{interrupções de software}. O DOS usa esse tipo de interrupção para
+implementar seu API (Interfácie de Programação de Aplicação). Sistemas
+operacionais mais modernos (como Windows ou UNIX) usam uma interfácie baseada
+em C. \footnote{No entanto, eles podem usar um interfácie de mais baixo nível
+no nível do kernel}.
 
-Many interrupt handlers return control back to the interrupted program
-when they finish. They restore all the registers to the same values
-they had before the interrupt occurred. Thus, the interrupted program
-runs as if nothing happened (except that it lost some CPU
-cycles). Traps generally do not return. Often they abort the program.
+Muitos tratadores de interrupção retornam o controle de execução de volta
+para o programa interrompido quando terminados. Eles restauram todos os
+registradores para os valores armazenadas antes da ocorrência da interrupção.
+Portanto, o programa interrompido roda como se nada houvesse acontecido (exceto
+que ele perde alguns ciclos de CPU). Traps geralmente não retornam.
+Frequentementa eles abortam o programa.
 
-\section{Assembly Language}
+\section{Linguagem de Assembly}
 
-\subsection{Machine language\index{machine language}}
+\subsection{Linguagem de máquina\index{machine language}}
 
-Every type of CPU understands its own machine language. Instructions
-in machine language are numbers stored as bytes in memory. Each
-instruction has its own unique numeric code called its \emph{operation
-code} or \emph{opcode} \index{opcode} for short. The 80x86 processor's
-instructions vary in size.  The opcode is always at the beginning of
-the instruction. Many instructions also include data ({\em e.g.\/},
-constants or addresses) used by the instruction.
+Todo tipo de CPU entende sua própria linguagem de máquina. Intruções na
+linguagem de máquina são números armazenadas como bytes na memória. Cada
+instrução tem seu próprio código númerico único chamado de \emph{código de
+operação} ou \emph{opcode} \index{opcode}. As instruções dos processadores
+80x86 variam em tamanho. O opcode está sempre situado no início da intrução.
+Muitas instruções também incluem dados ({\em e.g.\/}, constantes ou endereços)
+usados pela instrução.
 
-Machine language is very difficult to program in directly. Deciphering the
-meanings of the numerical-coded instructions is tedious for humans. For
-example, the instruction that says to add the EAX and EBX registers together
-and store the result back into EAX is encoded by the following hex codes:
+É muito difícel programar-se em linguagem de máquina diretamente. Decifrar o
+significado de instruções numéricamente codificadas é tedioso para seres
+humanos. Por exemplo, a instruções que diz para somar os registradores EAX e
+EBX e armazenar o resultado em EAX é códifica com os seguintes códigos hex:
 \begin{quote}
    03 C3
 \end{quote}
-This is hardly obvious. Fortunately, a program called an
-\emph{assembler} \index{assembler} can do this tedious work for the
-programmer.
+Isso não é nada obvio. Felizmente, um programada chamada de \emph{assembler}
+\index{assembler} pode fazer esse trabalho braçal para o programador.
 
-\subsection{Assembly language\index{assembly language|(}}
+\subsection{Linguagem de assembly\index{assembly language|(}}
 
-An assembly language program is stored as text (just as a higher level language
-program). Each assembly instruction represents exactly one machine instruction.
-For example, the addition instruction described above would be represented
-in assembly language as:
+Um programa em linguagem de assembly é armazenado como text (assim como
+programas em linguagens de alto nível). Cada instrução em assembly representa
+exatamente uma instrução de máquina. Por exemplo, a instrução de soma descrita
+ascima  seria representada em linguagem de assembly como:
 \begin{CodeQuote}
    add eax, ebx
 \end{CodeQuote}
-Here the meaning of the instruction is \emph{much} clearer than in
-machine code. The word {\code add} is a \emph{mnemonic}
-\index{mnemonic} for the addition instruction.  The general form of an
-assembly instruction is:
+Aqui o significado da instrução é \emph{muito} mais claro que no código de
+máquina. A palavra {\code add} é um \emph{mnemônico} \index{mnemonic} para a
+instrução de soma. A forma geral de uma instrução em assembly é:
 \begin{CodeQuote}
-  {\em mnemonic operand(s)}
+  {\em mnemônico operando(s)}
 \end{CodeQuote}
 
-An \emph{assembler} \index{assembler} is a program that reads a text
-file with assembly instructions and converts the assembly into machine
-code.  \emph{Compilers} \index{compiler} are programs that do similar
-conversions for high-level programming languages. An assembler is much
-simpler than a compiler. \MarginNote{It took several years for
-computer scientists to figure out how to even write a compiler!} Every
-assembly language statement directly represents a single machine
-instruction. High-level language statements are \emph{much} more
-complex and may require many machine instructions.
+Um \emph{assembler} \index{assembler} é um programa que lê um arquivo de texto
+como instruções em assembly que converte o assembly em código de máquina.
+\emph{Compiladores} \index{compiler} são programas que fazem converções
+similares para linguagens de programação de alto nível. Um assembler é muito
+mais simples que um compilador. \MarginNote{Ciêntistas da computação demoram
+alguns anos para descobrir como escrever um compilador!} Toda afirmação em uma
+linguagem de assembly representa diretamente uma única instrução de máquina.
+Afirmações em linguagens de alto nível são \emph{muito} mais complexas que
+podem requere mais de uma instrução de máquina.
 
-Another important difference between assembly and high-level languages is that
-since every different type of CPU has its own machine language, it also has
-its own assembly language. Porting assembly programs between different computer
-architectures is \emph{much} more difficult than in a high-level language.
+Outra importante diferença entra assembly e linguagens de alto-nível é que como
+cada tipo de CPU distinto tem sua própria linguagem de máquina, ele tem também
+sua própria linguagem de assembly. Traduzir programs em assembly entre
+diferentes arquiteturas é \emph{muito} mais díficil que traduzir languagens de
+alto-nível.
 
-This book's examples uses the Netwide Assembler or NASM \index{NASM}
-for short. It is freely available off the Internet (see the preface
-for the URL). More common assemblers are Microsoft's Assembler (MASM)
-\index{MASM} or Borland's Assembler (TASM). \index{TASM} There are
-some differences in the assembly syntax for MASM/TASM and NASM.
+Os exemplos desse livro usam o Netwide Assembler ou NASM \index{NASM}. Ele está
+diponível gratuitamente na Internet (consulte o prefácio para o URL). Outros
+assemblers comuns são o Microsoft's Assembler (MASM) \index{MASM} ou o
+Borland's Assembler (TASM). \index{TASM} Existem algumas diferenças na sintaxe
+do assembly entre o MASM/TASM e o NASM.
 
-\subsection{Instruction operands}
+\subsection{Operandos das instruções}
 
-Machine code instructions have varying number and type of operands; however,
-in general, each instruction itself will have a fixed number of operands (0
-to 3). Operands can have the following types:
+Instruções do código de máquina variam no número de operandos; no entanto, no
+geral, cada instrução tem um número fixo de operandos (entre 0 e 3). Operandos
+podem ter os seguintes tipos:
 \begin{description}
-\item[register:]
-These operands refer directly to the contents of the CPU's registers.
-\item[memory:]
-These refer to data in memory. The address of the data may be a constant
-hardcoded into the instruction or may be computed using values of registers.
-Address are always offsets from the beginning of a segment.
-\item[immediate:]
+\item[registrador:]
+Esses operandos fazem referência direta aos conteudos do registradores do CPU.
+\item[memória:]
+Esses fazem referência a dados na memória. O endereço dos dados pode ser uma
+constante ou pode ser computado apartir dos valores dos registradores.
+Os endereços são sempre offsets do começo de um segmento.
+\item[imediatos:]
 \index{immediate}
-These are fixed values that are listed in the instruction itself. They are
-stored in the instruction itself (in the code segment), not in the data
-segment.
-\item[implied:]
-These operands are not explicitly shown. For example, the increment 
-instruction adds one to a register or memory. The one is implied.
+Esses são valores fixos que são listados na própria instrução. Eles são
+armazenados na própria instrução (no segmento de código), não no segmento de
+dados.
+\item[implicitos:]
+Esses operandos não são explicitamente colocados. Por exemplo, a instrução de
+incrementação adiciona um a um registrador ou memória. O um é implícito.
 \end{description}
 \index{assembly language|)}
 
-\subsection{Basic instructions}
+\subsection{Instruções básicas}
 
-The most basic instruction is the {\code MOV} \index{MOV} instruction. It moves
-data from one location to another (like the assignment operator in a
-high-level language). It takes two operands:
+A instrução mais básica é a instrução {\code MOV} \index{MOV}. Ele move dados
+de um local para outro (como o operador de atribuição em um linguagem de
+alto-nível). Ela recebe dois operandos:
 \begin{CodeQuote}
   mov {\em dest, src}
 \end{CodeQuote}
-The data specified by {\em src} is copied to {\em dest\/}. One restriction
-is that both operands may not be memory operands. This points out another
-quirk of assembly. There are often somewhat arbitrary rules about how the
-various instructions are used. The operands must also be the same size. The
-value of AX can not be stored into BL.
+Os dados expecificados por {\em scr} é copiado para {\em dest\/}. Uma restrição
+é que os operandos não podem ser ambos endereços de memória. Isso evidencia
+outra questão de linguagens de assembly. Frequentemente existem regras
+arbitrárias sobre como diferentes instruções são usadas. Os operandos também
+precisam ter o mesmo tamanho. O valor de AX não pode ser armazenado em BL.
 
-Here is an example (semicolons start a comment\index{comment}):
+Por exemplo (ponto-virugula indica um comentário\index{comment}):
 \begin{AsmCodeListing}[frame=none, numbers=none]
-      mov    eax, 3   ; store 3 into EAX register (3 is immediate operand) 
-      mov    bx, ax   ; store the value of AX into the BX register 
+      mov    eax, 3   ; armazena 3 no registrador EAX (3 é um imediato)
+      mov    bx, ax   ; armazena do valor de AX no registrador BX
 \end{AsmCodeListing}
 
-The {\code ADD} \index{ADD} instruction is used to add integers.
-\begin{AsmCodeListing}[frame=none, numbers=none]
+A instrução {\code ADD} \index{ADD} é usada para somar inteiros.
       add    eax, 4   ; eax = eax + 4
       add    al, ah   ; al = al + ah 
 \end{AsmCodeListing}
 
-The {\code SUB} \index{SUB} instruction subtracts integers.
+A instrução {\code SUB} \index{SUB} subtrai inteiros.
 \begin{AsmCodeListing}[frame=none, numbers=none]
       sub    bx, 10   ; bx = bx - 10
       sub    ebx, edi ; ebx = ebx - edi
 \end{AsmCodeListing}
 
-The {\code INC} \index{INC} and {\code DEC} \index{DEC} instructions
-increment or decrement values by one. Since the one is an implicit
-operand, the machine code for {\code INC} and {\code DEC} is smaller
-than for the equivalent {\code ADD} and {\code SUB} instructions.
+As instruções {\code INC} \index{INC} e {\code DEC} \index{DEC} incrementam ou
+decrementam valores por um. Como o um é um operando implícito, o códico de
+máquina de {\code INC} e {\code DEC} é menor que o das instruções {\code ADD} e 
+{\code SUB} equivalentes.
 \begin{AsmCodeListing}[frame=none, numbers=none]
       inc    ecx      ; ecx++
       dec    dl       ; dl--
 \end{AsmCodeListing}
 
-\subsection{Directives\index{directive|(}}
+\subsection{Diretivas\index{directive|(}}
 
-A \emph{directive} is an artifact of the assembler not the CPU. They are
-generally used to either instruct the assembler to do something or inform
-the assembler of something. They are not translated into machine code. Common
-uses of directives are:
+Uma \emph{diretiva} é um artefato de um assembler e não do CPU. Elas são em
+geral usadas para instruir o assembly a fazer algo ou informar algo ao 
+assembler. Elas não são traduzidas para código de máquina. Usos comuns de
+diretivas são:
 \begin{list}{$\bullet$}{\setlength{\itemsep}{0pt}}
-\item define constants
-\item define memory to store data into
-\item group memory into segments
-\item conditionally include source code
-\item include other files
+\item definir constantes
+\item definir memória para o armazenamento de dados
+\item agrupar a memória em segmentos
+\item incluir código fonte condicionalmente
+\item incluir outros arquivos
 \end{list}
 
-NASM code passes through a preprocessor just like C. It has many of the
-same preprocessor commands as C. However, NASM's preprocessor directives 
-start with a \% instead of a \# as in C.
+O código em NASM passa por um preprocessador assim como em C. Ele tem muitos
+dos mesmos comandos de preprocessador de C. No entanto, as diretivas de
+prepocessamento em NASM comesam com \% ao invez de \# como em C.
 
-\subsubsection{The equ directive\index{directive!equ}}
+\subsubsection{A diretiva equ\index{directive!equ}}
 
-The {\code equ} directive can be used to define a \emph{symbol}. Symbols are
-named constants that can be used in the assembly program. The format is:
+A diretiva {\code equ} pode usada para definir um \emph{simbolo}. Simbulos são
+contantes nomeadas que podem ser usadas no programa em assembly. O formato é:
 \begin{quote}
-  \code {\em symbol} equ {\em value}
+  \code {\em simbulo} equ {\em valor}
 \end{quote}
-Symbol values can \emph{not} be redefined later.
+Os valores de simbulos \emph{não} podem ser redefinidos posteriormente.
 
-\subsubsection{The \%define directive\index{directive!\%define}}
+\subsubsection{A diretiva \%define\index{directive!\%define}}
 
-This directive is similar to C's {\code \#define} directive. It is
-most commonly used to define constant macros just as in C.
+Essa diretiva é semelhante à diretiva {\code \#define} em C. Ela é comumente
+usada para definir macros constantes assim como em C.
 \begin{AsmCodeListing}[frame=none, numbers=none]
-%define SIZE 100
-      mov    eax, SIZE
+\%define TAMANHO 100
+      mov    eax, TAMANHO
 \end{AsmCodeListing}
-The above code defines a macro named {\code SIZE} and shows its use in
-a {\code MOV} instruction. Macros are more flexible than symbols in
-two ways. Macros can be redefined and can be more than simple constant
-numbers.
+O código acima define uma macro nomeada {\code TAMANHO} e mostra seu uso em uma
+instrução {\code MOV}. Macros são mais flexíveis que simbolos de dois modos.
+Macros podem ser redefinidas e podem ser mais do que simples valores
+constantes.
 
-\subsubsection{Data directives\index{directive!data|(}}
+\subsubsection{Diretivas de dados\index{directive!data|(}}
 
 \begin{table}[t]
 \centering
 \begin{tabular}{||c|c||} \hline
-{\bf Unit} & {\bf Letter} \\
+{\bf Unidade} & {\bf Letra} \\
 \hline
 byte & B \\
 word & W \\
@@ -741,7 +752,7 @@ quad word & Q \\
 ten bytes & T \\
 \hline
 \end{tabular}
-\caption{Letters for {\code RESX} and {\code DX} Directives 
+\caption{Letras para Diretivas {\code RESX} e {\code DX}
          \label{tab:size-letters} }
 \end{table}
 
